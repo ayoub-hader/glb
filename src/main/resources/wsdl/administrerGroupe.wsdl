@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0" xmlns:technical="http://cfdt.fr/gasel/schema/v0/technical" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:gaselWsdl="http://cfdt.fr/gasel/wsdl-helper" xmlns:fault="http://cfdt.fr/gasel/service/common/fault/v0" xmlns:com="http://cfdt.fr/gasel/schema/v0/mdm/common" name="administrerGroupe" targetNamespace="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0" xsi:schemaLocation="http://cfdt.fr/gasel/schema/v0/technical  ../../xsd/technical/technical.xsd         http://cfdt.fr/gasel/schema/v0/mdm/common  ../../xsd/mdm/common.xsd">
+<wsdl:documentation>
+						lifecycle:Utilisationversion:0.1
+				domaine:Administration
+				datasource:Database
+				type:tache
+				description:</wsdl:documentation>
+  <wsdl:import location="http://192.168.1.239:8280/gaselws/services/administrerGroupe?wsdl=../../wsdl/common/fault.wsdl" namespace="http://cfdt.fr/gasel/service/common/fault/v0">
+    </wsdl:import>
+  <wsdl:types>
+<xsd:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0" xmlns:technical="http://cfdt.fr/gasel/schema/v0/technical" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:gaselWsdl="http://cfdt.fr/gasel/wsdl-helper" xmlns:fault="http://cfdt.fr/gasel/service/common/fault/v0" xmlns:com="http://cfdt.fr/gasel/schema/v0/mdm/common" elementFormDefault="qualified" targetNamespace="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0">
+  <xsd:import namespace="http://cfdt.fr/gasel/schema/v0/technical" schemaLocation="http://192.168.1.239:8280/gaselws/services/administrerGroupe?xsd=../../xsd/technical/technical.xsd"/>
+  <xsd:import namespace="http://cfdt.fr/gasel/schema/v0/mdm/common" schemaLocation="http://192.168.1.239:8280/gaselws/services/administrerGroupe?xsd=../../xsd/mdm/common.xsd"/>
+  <xsd:import namespace="http://cfdt.fr/gasel/schema/v0/structure/groupe" schemaLocation="http://192.168.1.239:8280/gaselws/services/administrerGroupe?xsd=../../xsd/structure/groupe.xsd"/>
+  <xsd:import namespace="http://cfdt.fr/gasel/schema/v0/structure/pagination" schemaLocation="http://192.168.1.239:8280/gaselws/services/administrerGroupe?xsd=../../xsd/structure/pagination.xsd"/>
+  <xsd:element name="consulterGroupesRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="groupeID" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="libelleGroupe" type="xsd:string"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="acronyme" type="xsd:string"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="description" type="xsd:string"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="structureID" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="parentID" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="regionID" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="departementID" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="etablissement" type="xsd:string"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="etablissementPrincipal" type="xsd:string"/>
+        <xsd:element ref="com:Security"/>
+        <xsd:element name="merge" nillable="true" type="xsd:string"/>
+        <xsd:element default="true" name="validationData" type="xsd:boolean"/>
+        <xsd:element name="viewId" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="consulterGroupesResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listeGroupe" type="grp:Groupe"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" name="pagination" type="pgn:Pagination"/>
+        <xsd:element name="branch" type="xsd:string"/>
+        <xsd:element ref="technical:responseStatus"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="creerGroupeRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="groupe" type="grp:Groupe"/>
+        <xsd:element ref="com:Security"/>
+        <xsd:element name="merge" nillable="true" type="xsd:string"/>
+        <xsd:element default="true" name="validationData" type="xsd:boolean"/>
+        <xsd:element name="viewId" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="creerGroupeResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="groupeID" type="xsd:int"/>
+        <xsd:element name="branch" type="xsd:string"/>
+        <xsd:element ref="technical:responseStatus"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="modifierGroupeRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="groupe" type="grp:Groupe"/>
+        <xsd:element ref="com:Security"/>
+        <xsd:element name="merge" nillable="true" type="xsd:string"/>
+        <xsd:element default="true" name="validationData" type="xsd:boolean"/>
+        <xsd:element name="viewId" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="modifierGroupeResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="branch" type="xsd:string"/>
+        <xsd:element ref="technical:responseStatus"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="supprimerGroupeOuRetournerObjetLieGroupeRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="groupe" type="grp:Groupe"/>
+        <xsd:element ref="com:Security"/>
+        <xsd:element name="merge" nillable="true" type="xsd:string"/>
+        <xsd:element default="true" name="validationData" type="xsd:boolean"/>
+        <xsd:element name="viewId" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="supprimerGroupeOuRetournerObjetLieGroupeResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="structureCount" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="personneCount" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="sousGroupeCount" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="mandatCount" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listePersonne" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listeStructure" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listeGroupe" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listeMandat" type="xsd:int"/>
+        <xsd:element name="branch" type="xsd:string"/>
+        <xsd:element ref="technical:responseStatus"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="supprimerGoupeLieSectionsOuAdherentsRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="groupe" type="grp:Groupe"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="structureLie" type="xsd:boolean"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="personneLie" type="xsd:boolean"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="sousGroupeLie" type="xsd:boolean"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" minOccurs="0" name="mandatLie" type="xsd:boolean"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listePersonne" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listeStructure" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listeSousGroupes" type="xsd:int"/>
+        <xsd:element xmlns:pgn="http://cfdt.fr/gasel/schema/v0/structure/pagination" xmlns:grp="http://cfdt.fr/gasel/schema/v0/structure/groupe" xmlns="http://cfdt.fr/gasel/wsdl-helper" maxOccurs="unbounded" minOccurs="0" name="listeMandat" type="xsd:int"/>
+        <xsd:element ref="com:Security"/>
+        <xsd:element name="merge" nillable="true" type="xsd:string"/>
+        <xsd:element default="true" name="validationData" type="xsd:boolean"/>
+        <xsd:element name="viewId" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="supprimerGoupeLieSectionsOuAdherentsResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="branch" type="xsd:string"/>
+        <xsd:element ref="technical:responseStatus"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="creerGroupeResponseMessage">
+    <wsdl:part element="tns:creerGroupeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifierGroupeResponseMessage">
+    <wsdl:part element="tns:modifierGroupeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifierGroupeRequestMessage">
+    <wsdl:part element="tns:modifierGroupeRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="supprimerGroupeOuRetournerObjetLieGroupeRequestMessage">
+    <wsdl:part element="tns:supprimerGroupeOuRetournerObjetLieGroupeRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creerGroupeRequestMessage">
+    <wsdl:part element="tns:creerGroupeRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="supprimerGoupeLieSectionsOuAdherentsResponseMessage">
+    <wsdl:part element="tns:supprimerGoupeLieSectionsOuAdherentsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="supprimerGoupeLieSectionsOuAdherentsRequestMessage">
+    <wsdl:part element="tns:supprimerGoupeLieSectionsOuAdherentsRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consulterGroupesRequestMessage">
+    <wsdl:part element="tns:consulterGroupesRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consulterGroupesResponseMessage">
+    <wsdl:part element="tns:consulterGroupesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="supprimerGroupeOuRetournerObjetLieGroupeResponseMessage">
+    <wsdl:part element="tns:supprimerGroupeOuRetournerObjetLieGroupeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="administrerGroupeInterface">
+    <wsdl:operation name="consulterGroupes">
+      <wsdl:input message="tns:consulterGroupesRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:consulterGroupesResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="fault:ServiceFault" name="fault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="creerGroupe">
+      <wsdl:input message="tns:creerGroupeRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:creerGroupeResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="fault:ServiceFault" name="fault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="modifierGroupe">
+      <wsdl:input message="tns:modifierGroupeRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:modifierGroupeResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="fault:ServiceFault" name="fault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="supprimerGroupeOuRetournerObjetLieGroupe">
+      <wsdl:input message="tns:supprimerGroupeOuRetournerObjetLieGroupeRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:supprimerGroupeOuRetournerObjetLieGroupeResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="fault:ServiceFault" name="fault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="supprimerGoupeLieSectionsOuAdherents">
+      <wsdl:input message="tns:supprimerGoupeLieSectionsOuAdherentsRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:supprimerGoupeLieSectionsOuAdherentsResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="fault:ServiceFault" name="fault">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="administrerGroupeSOAPBinding" type="tns:administrerGroupeInterface">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="consulterGroupes">
+      <soap:operation soapAction="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0/consulterGroupes"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="creerGroupe">
+      <soap:operation soapAction="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0/creerGroupe"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="modifierGroupe">
+      <soap:operation soapAction="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0/modifierGroupe"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="supprimerGroupeOuRetournerObjetLieGroupe">
+      <soap:operation soapAction="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0/supprimerGroupeOuRetournerObjetLieGroupe"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="supprimerGoupeLieSectionsOuAdherents">
+      <soap:operation soapAction="http://cfdt.fr/gasel/service/tache/administrerGroupe/v0/supprimerGoupeLieSectionsOuAdherents"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="administrerGroupeSOAPService">
+    <wsdl:port binding="tns:administrerGroupeSOAPBinding" name="administrerGroupeSOAP">
+      <soap:address location="http://192.168.1.239:8280/gaselws/services/administrerGroupe"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

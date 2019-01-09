@@ -1,0 +1,63 @@
+info:
+  component: ldap group microservices
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ldap-group-services
+  datasource:
+    url: jdbc:sqlserver://192.168.1.185:1433;databaseName=ldap_group_db
+    username: gasel_back
+    password: gasel
+    driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  second-datasource:
+    url: jdbc:sqlserver://192.168.1.185:1433;databaseName=ebx_gasel_db_dev
+    username: gasel_back
+    password: gasel
+    driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.SQLServerDialect
+#      ddl-auto: create-drop
+    show-sql: true
+  cache:
+      type: redis
+  redis:
+      host: localhost
+      port: 6379
+  batch:
+    job:
+      enabled: false
+    initialize-schema: always
+cron:
+  expression: "*/10 * * * * *"
+#  main:
+#      allow-bean-definition-overriding=true
+
+#flyway:
+#  enabled: true
+#  locations: classpath:db/migration
+#  encoding: UTF-8
+
+group-ldap:
+  client:
+    personEbxProxy: 'http://localhost:8888/esb/ebx/personne'
+    structureEbxProxy: 'http://localhost:8888/esb/ebx/structure'
+    parameterEbxProxy: 'http://localhost:8888/esb/ebx/parametres'
+    ldapPort: 389
+    ldapHostName: 172.20.16.4
+    ldapBindPassword: esDAPsmbP
+    ldapBaseDn: dc=cfdt,dc=fr
+    ldapBindDN: cn=admin,dc=cfdt,dc=fr
+
+    firstDataSourceUrl: jdbc:sqlserver://192.168.1.185:1433;databaseName=ldap_group_db
+    firstDataSourceUserName: gasel_back
+    firstDataSourcePassword: gasel
+    secondDataSourceUrl: jdbc:sqlserver://192.168.1.185:1433;databaseName=ebx_gasel_db_dev
+    secondDataSourceUserName: gasel_back
+    secondDataSourcePassword: gasel
+
+    driverName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    dialect: org.hibernate.dialect.SQLServerDialect
