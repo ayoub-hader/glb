@@ -37,6 +37,7 @@ public class UpdateLdapBatch implements Tasklet {
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
         LOGGER.info("start batch update group members Ldap");
         // recuperer la liste des groupes depuis la base
+        //test commit
         LOGGER.info("Batch update group members Ldap : recuperer la liste des groupes depuis la base");
         List<Group> groups = entityManager.createNativeQuery("select * from ldap_group" , Group.class).getResultList();
         //commencer le traitement pour chaque groupe
