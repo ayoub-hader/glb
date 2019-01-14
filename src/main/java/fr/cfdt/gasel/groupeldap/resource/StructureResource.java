@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +28,9 @@ public class StructureResource {
 
     @GetMapping("/{type}/{page}/{size}")
     @ApiOperation(value = "Récupérer la liste des structure par type")
-    public List<StructureDto> getStructures(@PathVariable String type , @PathVariable int page , @PathVariable int size) {
+    public Page<StructureDto> getStructures(@PathVariable String type , @PathVariable int page , @PathVariable int size) {
         LOGGER.info("Start Get getStructures ");
-        List<StructureDto> structures = structureService.getStructuresByType(type , page , size);
+        Page<StructureDto> structures = structureService.getStructuresByType(type , page , size);
         LOGGER.info("End Get getStructures ");
         return structures;
     }
