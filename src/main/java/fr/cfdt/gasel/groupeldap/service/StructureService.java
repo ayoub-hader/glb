@@ -2,12 +2,15 @@ package fr.cfdt.gasel.groupeldap.service;
 
 import fr.cfdt.gasel.groupeldap.connector.ebxdb.StructureRepository;
 import fr.cfdt.gasel.groupeldap.dto.StructureDto;
-import fr.cfdt.gasel.groupeldap.mapper.PersonMapper;
+import fr.cfdt.gasel.groupeldap.mapper.StructureMapper;
 import fr.cfdt.gasel.groupeldap.model.Structure;
 import fr.cfdt.gasel.groupeldap.util.PagingUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,19 +24,21 @@ public class StructureService {
     StructureRepository structureRepository;
 
     @Autowired
-    PersonMapper structureMapper;
+    StructureMapper structureMapper;
 
     @Autowired
     PagingUtil pagingUtil;
 
-    public List<StructureDto> getStructuresByType(String  type , Integer page , Integer size) {
-        List<StructureDto> result = null;
+    public Page<StructureDto> getStructuresByType(String  type , Integer page , Integer size) {
         LOGGER.info("Start service getStructuresByType ");
         List<Structure> structuresEbx = structureRepository.findByType(type);
-        LOGGER.info("End service getMembers ");
+        List<Structure> pageContent;
         if(page != null && size != null){
-            result = pagingUtil.getPage(structuresEbx , page , size);
+            pageContent = pagingUtil.getPage(structuresEbx , page , size);
+        } else {
+            pageContent = structuresEbx;
         }
-        return result;
+        LOGGER.info("End service getStructuresByType ");
+        return new PageImpl<>(structureMapper.listStructureModelToDto(pageContent), PageRequest.of(page, size) , structuresEbx.size());
     }
 }
