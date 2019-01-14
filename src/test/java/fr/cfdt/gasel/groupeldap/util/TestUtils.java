@@ -89,21 +89,24 @@ public class TestUtils {
         return person;
     }
 
-//    public static PersonneDto createPersonDto(int index){
-//        PersonneDto result = new PersonneDto();
-//        result.setIdPerson(index);
-//        result.setFirstName("name"+String.valueOf(index));
-//        result.setLastName("lastName"+String.valueOf(index));
-//        return result;
-//    }
+    public static PersonneDto createPersonDto(Long index){
+        PersonneDto result = new PersonneDto();
+        result.setId(index);
+        result.setNom("name"+String.valueOf(index));
+        result.setPrenom("lastName"+String.valueOf(index));
+        return result;
+    }
 
-//    public static List<PersonneDto> createPersonListDto(){
-//        List<PersonneDto> result = new ArrayList<>();
-//        PersonneDto person1 = createPersonDto(1);
-//        PersonneDto person2 = createPersonDto(2);
-//        PersonneDto person3 = createPersonDto(3);
-//        return result;
-//    }
+    public static List<PersonneDto> createPersonListDto(){
+        List<PersonneDto> result = new ArrayList<>();
+        PersonneDto person1 = createPersonDto(Long.valueOf(1));
+        PersonneDto person2 = createPersonDto(Long.valueOf(2));
+        PersonneDto person3 = createPersonDto(Long.valueOf(3));
+        result.add(person1);
+        result.add(person2);
+        result.add(person3);
+        return result;
+    }
 
 
     //===========================Structure================================

@@ -1,9 +1,9 @@
-package fr.cfdt.gasel.groupeldap.connector.ebxDb;
+package fr.cfdt.gasel.groupeldap.connector.ebxdb;
 
 import fr.cfdt.gasel.groupeldap.model.Personne;
 
 import java.util.List;
 
 public interface PersonRepositoryCustom {
-    List<Personne> PersonsByQuery(String query);
+    List<Personne> personsByQuery(String query);
 }

@@ -34,8 +34,7 @@ public class ParameterClient {
         typeStructureRequest.setBranch(BranchEnum.GASEL.getCode());
         typeStructureRequest.setInstance(InstanceEnum.PARAMETRE.getCode());
         typeStructureRequest.setPredicate(predicat);
-        SelectTypeStructureResponseType typeStructureResponse = parametresEBXInterface.selectTypeStructureOperation(typeStructureRequest, BusinessUtils.securityTokenMapper());
-        return typeStructureResponse;
+        return parametresEBXInterface.selectTypeStructureOperation(typeStructureRequest, BusinessUtils.securityTokenMapper());
     }
 
     /**
@@ -127,7 +126,7 @@ public class ParameterClient {
      */
     public List<TypeMandatType.Parametres.TypeMandat> getAllTypeMandat() throws StandardException {
         SelectTypeMandatResponseType rep = findTypeMandatByPredicat("");
-        List<TypeMandatType.Parametres.TypeMandat> typeMandatList = new ArrayList<TypeMandatType.Parametres.TypeMandat>();
+        List<TypeMandatType.Parametres.TypeMandat> typeMandatList = new ArrayList<>();
         if (rep.getData().getParametres().getTypeMandat() != null && !rep.getData().getParametres().getTypeMandat().isEmpty()) {
             typeMandatList.addAll(rep.getData().getParametres().getTypeMandat());
         }
@@ -145,8 +144,7 @@ public class ParameterClient {
         typeMandatRequest.setBranch(BranchEnum.GASEL.getCode());
         typeMandatRequest.setInstance(InstanceEnum.PARAMETRE.getCode());
         typeMandatRequest.setPredicate(predicat);
-        SelectTypeMandatResponseType typeMandatResponse = parametresEBXInterface.selectTypeMandatOperation(typeMandatRequest, BusinessUtils.securityTokenMapper());
-        return typeMandatResponse;
+        return parametresEBXInterface.selectTypeMandatOperation(typeMandatRequest, BusinessUtils.securityTokenMapper());
     }
 
 }

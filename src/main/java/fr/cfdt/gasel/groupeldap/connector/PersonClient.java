@@ -66,8 +66,6 @@ public class PersonClient {
      * @throws StandardException
      */
     public SelectPersonneResponseType selectPersonneOperation(SelectPersonneRequestType request, Security security) throws StandardException {
-        boolean logTrack = request.getPredicate() != null && request.getPredicate().length() >= 200;
-
         LOGGER.debug("selectPersonneOperation predicat : " + request.getPredicate());
 
         StopWatch time = new StopWatch();

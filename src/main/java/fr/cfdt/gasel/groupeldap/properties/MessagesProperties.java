@@ -10,12 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 @Getter
 @Setter
 public class MessagesProperties {
-
-    private String technicalExceptionInGetAccountActivities;
-    private String technicalExceptionInGetAccountList;
-    private String technicalExceptionInGetAccountDetail;
-    private String invalidInputException;
-    private String paramShouldNotBeNull;
-    private String sslTechnicalError;
+    private String technicalExceptionInGetLdapUsersByNpas;
 }
 

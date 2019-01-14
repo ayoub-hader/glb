@@ -1,4 +1,4 @@
-package fr.cfdt.gasel.groupeldap.connector.ebxDb;
+package fr.cfdt.gasel.groupeldap.connector.ebxdb;
 
 import fr.cfdt.gasel.groupeldap.model.Personne;
 import org.springframework.data.repository.PagingAndSortingRepository;

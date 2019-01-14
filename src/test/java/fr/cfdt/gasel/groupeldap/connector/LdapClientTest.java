@@ -1,6 +1,7 @@
 package fr.cfdt.gasel.groupeldap.connector;
 
 import fr.cfdt.gasel.groupeldap.LdapGroupApplicationTests;
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.util.TestUtils;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class LdapClientTest {
     }
 
     @Test
-    public void testGetUsersByUids(){
+    public void testGetUsersByUids() throws TechnicalException {
         // When
         when(gaselLDAPService.getLDAPUsersByUids(any())).thenReturn(TestUtils.createListLdapUser());
 

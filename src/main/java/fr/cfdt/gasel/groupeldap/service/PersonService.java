@@ -1,15 +1,20 @@
 package fr.cfdt.gasel.groupeldap.service;
 
 import fr.cfdt.gasel.groupeldap.connector.LdapClient;
-import fr.cfdt.gasel.groupeldap.connector.ebxDb.PersonRepositoryImpl;
+import fr.cfdt.gasel.groupeldap.connector.ebxdb.PersonRepositoryImpl;
 import fr.cfdt.gasel.groupeldap.dto.PersonneDto;
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.PersonMapper;
 import fr.cfdt.gasel.groupeldap.model.Personne;
+import fr.cfdt.gasel.groupeldap.properties.MessagesProperties;
 import fr.cfdt.gasel.groupeldap.util.PagingUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +24,15 @@ import java.util.stream.Collectors;
  */
 
 @Service
+@EnableConfigurationProperties(MessagesProperties.class)
+@PropertySource(ResourceUtils.CLASSPATH_URL_PREFIX + "messages.properties")
 public class PersonService {
 
     @Autowired
     PersonRepositoryImpl personRepositoryImpl;
+
+    @Autowired
+    private MessagesProperties messagesProperties;
     
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonService.class);
 
@@ -36,16 +46,21 @@ public class PersonService {
     PagingUtil pagingUtil;
 
 
-    public List<PersonneDto> getMembers(String query , Integer page , Integer size){
+    public List<PersonneDto> getMembers(String query , Integer page , Integer size) throws TechnicalException{
         List<PersonneDto> result = null;
         LOGGER.info("Start service getMembers ");
-        List<Personne> personEbx = personRepositoryImpl.PersonsByQuery(query);
-        //recuperer la liste des personnes from LDAP pour faire l'intersection
-        List<String> npas = personEbx.stream().map(Personne::getNpa).collect(Collectors.toList());
-        List<String> npasLdap = ldapClient.getLdapUsersByNpa(npas);
-        //faire l'intersection
-        if(npasLdap != null && !npasLdap.isEmpty()){
-            result = personMapper.listPersonneModelToDto(personEbx.stream().filter(p -> npasLdap.contains(p.getNpa())).collect(Collectors.toList()));
+        try{
+            List<Personne> personEbx = personRepositoryImpl.personsByQuery(query);
+            //recuperer la liste des personnes from LDAP pour faire l'intersection
+            List<String> npas = personEbx.stream().map(Personne::getNpa).collect(Collectors.toList());
+            List<String> npasLdap = ldapClient.getLdapUsersByNpa(npas);
+            //faire l'intersection
+            if(npasLdap != null && !npasLdap.isEmpty()){
+                result = personMapper.listPersonneModelToDto(personEbx.stream().filter(p -> npasLdap.contains(p.getNpa())).collect(Collectors.toList()));
+            }
+        } catch (Exception e){
+            LOGGER.error("Call to WS Get getLdapUsersByNpa failed, reason : {}", e.getMessage());
+            throw new TechnicalException(messagesProperties.getTechnicalExceptionInGetLdapUsersByNpas());
         }
         LOGGER.info("End service getMembers ");
         if(page != null && size != null){

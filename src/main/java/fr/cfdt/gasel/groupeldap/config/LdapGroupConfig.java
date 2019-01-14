@@ -30,10 +30,9 @@ public class LdapGroupConfig {
 
 
     /**
-     * Account activity proxy get account activity.
      *
-     * @return the get account activity
-     * @throws TechnicalException the technical exception
+     * @return
+     * @throws TechnicalException
      */
     @Bean(name = "personEbxProxy")
     public PersonneEBXInterface personEbxProxy() throws TechnicalException {
@@ -61,11 +60,10 @@ public class LdapGroupConfig {
         return ldapBean;
     }
 
-    private <T> T buildProxy(String url, Class<T> clazz) throws TechnicalException {
+    private <T> T buildProxy(String url, Class<T> clazz) {
         JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
         jaxWsProxyFactoryBean.setServiceClass(clazz);
         jaxWsProxyFactoryBean.setAddress(url);
-        T target = (T) jaxWsProxyFactoryBean.create();
-        return target;
+        return (T) jaxWsProxyFactoryBean.create();
     }
 }

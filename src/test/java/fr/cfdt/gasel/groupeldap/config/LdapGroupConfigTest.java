@@ -28,7 +28,8 @@ public class LdapGroupConfigTest {
     private GroupDatasource groupdatasource;
 
     /**
-     * Method: accountActivityProxy()
+     *
+     * @throws TechnicalException
      */
     @Test
     public void testPersonEbxProxy() throws TechnicalException {

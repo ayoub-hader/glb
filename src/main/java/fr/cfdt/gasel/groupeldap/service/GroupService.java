@@ -1,11 +1,12 @@
 package fr.cfdt.gasel.groupeldap.service;
 
 import fr.cfdt.gasel.groupeldap.connector.PersonClient;
-import fr.cfdt.gasel.groupeldap.connector.groupDb.GroupRepository;
-import fr.cfdt.gasel.groupeldap.connector.groupDb.RequestRepository;
+import fr.cfdt.gasel.groupeldap.connector.groupdb.GroupRepository;
+import fr.cfdt.gasel.groupeldap.connector.groupdb.RequestRepository;
 import fr.cfdt.gasel.groupeldap.dto.GroupDto;
 import fr.cfdt.gasel.groupeldap.dto.PersonneDto;
 import fr.cfdt.gasel.groupeldap.enumeration.BranchEnum;
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.GroupMapper;
 import fr.cfdt.gasel.groupeldap.model.Group;
 import fr.cfdt.gasel.groupeldap.util.BusinessUtils;
@@ -50,26 +51,8 @@ public class GroupService {
     @Autowired
     private PersonService personService;
 
-    /**
-     *
-     * @return
-     * @throws StandardException
-     */
-    public List<PersonneDto> getAllPersons() throws StandardException {
-        LOGGER.info("start get all persons");
-        List<PersonneType.Gasel.Personne> listpers = personClient.findPersonneByPredicat("adherent/npa='2018010405'", BranchEnum.GASEL.getCode(), "listePersonneView", BusinessUtils.securityTokenMapper(), getPaginationWithMaxSize(200));
-        LOGGER.info("end get all persons");
-        return null;
-    }
-
     public List<GroupDto> getAllGroups(){
         return groupMapper.listGroupModelToDto(groupRepository.findAll());
-    }
-
-    private Pagination getPaginationWithMaxSize(final Integer maxSize) {
-        Pagination pagination = new Pagination();
-        pagination.setPageSize(maxSize);
-        return pagination;
     }
 
     /**
@@ -79,7 +62,7 @@ public class GroupService {
     public void deleteGroup(Long groupId) {
         //recuperer l'id de la requette
        Optional<Group> group = groupRepository.findById(groupId);
-       Long idRequest = group != null && group.get().getRequest() != null ? group.get().getRequest().getIdRequest() : null;
+       Long idRequest = group.isPresent() && group.get().getRequest() != null ? group.get().getRequest().getIdRequest() : null;
         //delete group
         groupRepository.deleteById(groupId);
         //delete request
@@ -93,7 +76,7 @@ public class GroupService {
      * @param group
      * @return
      */
-    public GroupDto createGroup(GroupDto group) {
+    public GroupDto createGroup(GroupDto group) throws TechnicalException {
         // creer le groupe dans la base
         GroupDto groupDto = groupMapper.groupModelToDto(groupRepository.save(groupMapper.groupDtoToModel(group)));
         GaselGroupeLDAPEntry gaselGroupeLDAPEntry = new GaselGroupeLDAPEntry();
@@ -110,7 +93,7 @@ public class GroupService {
         }
         boolean resultLdapCreation = gaselLDAPService.createLpdapGroup(gaselGroupeLDAPEntry);
         //suppression du groupe suite a une excepion ldap
-        if(resultLdapCreation == false){
+        if(!resultLdapCreation){
             groupRepository.deleteById(groupDto.getId());
             groupDto = null;
         } else {
@@ -126,7 +109,7 @@ public class GroupService {
      * @param request
      * @return
      */
-    public List<String> getLdapMembers(String request){
+    public List<String> getLdapMembers(String request) throws TechnicalException {
         List<String> result;
         List<PersonneDto> listMembers = personService.getMembers(request , null , null);
         result = listMembers.stream().map(p -> "uid="+p.getNpa()+",ou=utilisateurs,dc=cfdt,dc=fr").collect(Collectors.toList());

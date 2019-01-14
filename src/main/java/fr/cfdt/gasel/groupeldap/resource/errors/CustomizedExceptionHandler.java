@@ -12,7 +12,7 @@ import fr.cfdt.gasel.groupeldap.exception.InvalidInputException;
 import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 
 /**
- * Account Resource ExceptionHandler.
+ * Resources ExceptionHandler.
  */
 @ControllerAdvice
 public class CustomizedExceptionHandler {

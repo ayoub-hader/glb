@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * The type Account preperties.
+ * Ldap Group properties.
  */
 @ConfigurationProperties(prefix = "group-ldap.client")
 @Getter
@@ -21,14 +21,4 @@ public class LdapGroupProperties {
     private String ldapHostName;
     private String ldapBindPassword;
     private String ldapBindDN;
-    //datasources
-    private String firstDataSourceUrl;
-    private String firstDataSourceUserName;
-    private String firstDataSourcePassword;
-    private String secondDataSourceUrl;
-    private String secondDataSourceUserName;
-    private String secondDataSourcePassword;
-    private String driverName;
-    private String dialect;
-
 }

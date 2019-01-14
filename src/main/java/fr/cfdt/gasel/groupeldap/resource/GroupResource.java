@@ -1,6 +1,7 @@
 package fr.cfdt.gasel.groupeldap.resource;
 
 import fr.cfdt.gasel.groupeldap.dto.GroupDto;
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.service.CsvWriterService;
 import fr.cfdt.gasel.groupeldap.service.GroupService;
 import io.swagger.annotations.ApiModelProperty;
@@ -56,7 +57,7 @@ public class GroupResource {
 
     @PostMapping("{group}")
     @ApiModelProperty("Créer un Groupe")
-    public GroupDto saveGroup(GroupDto group){
+    public GroupDto saveGroup(GroupDto group) throws TechnicalException {
         return groupService.createGroup(group);
     }
 

@@ -1,5 +1,6 @@
 package fr.cfdt.gasel.groupeldap.batch;
 
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.model.Group;
 import fr.cfdt.gasel.groupeldap.service.GroupService;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
@@ -34,7 +35,7 @@ public class UpdateLdapBatch implements Tasklet {
     EntityManager entityManager;
 
     @Override
-    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
+    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws TechnicalException {
         LOGGER.info("start batch update group members Ldap");
         // recuperer la liste des groupes depuis la base
         //test commit

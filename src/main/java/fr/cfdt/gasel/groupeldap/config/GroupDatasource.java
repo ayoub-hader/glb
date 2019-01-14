@@ -17,7 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.persistence.EntityManagerFactory;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"fr.cfdt.gasel.groupeldap.connector.groupDb"},
+@EnableJpaRepositories(basePackages = {"fr.cfdt.gasel.groupeldap.connector.groupdb"},
         entityManagerFactoryRef = "firstEntityManagerFactory",
         transactionManagerRef = "firstTransactionManager")
 public class GroupDatasource {

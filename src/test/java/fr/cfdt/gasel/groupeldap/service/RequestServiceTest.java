@@ -1,9 +1,8 @@
 package fr.cfdt.gasel.groupeldap.service;
 
-import fr.cfdt.gasel.groupeldap.connector.groupDb.RequestRepository;
+import fr.cfdt.gasel.groupeldap.connector.groupdb.RequestRepository;
 import fr.cfdt.gasel.groupeldap.mapper.RequestMapper;
 import org.junit.Before;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 

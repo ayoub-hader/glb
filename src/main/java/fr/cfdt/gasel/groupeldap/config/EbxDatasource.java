@@ -16,7 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.persistence.EntityManagerFactory;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"fr.cfdt.gasel.groupeldap.connector.ebxDb"},
+@EnableJpaRepositories(basePackages = {"fr.cfdt.gasel.groupeldap.connector.ebxdb"},
         entityManagerFactoryRef = "secondEntityManagerFactory",
         transactionManagerRef = "secondTransactionManager")
 public class EbxDatasource {

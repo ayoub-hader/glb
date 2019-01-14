@@ -1,4 +1,4 @@
-package fr.cfdt.gasel.groupeldap.connector.ebxDb;
+package fr.cfdt.gasel.groupeldap.connector.ebxdb;
 
 import fr.cfdt.gasel.groupeldap.model.Personne;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
 
     @Override
     @Cacheable(value="membersByQuery")
-    public List<Personne> PersonsByQuery(String query) {
+    public List<Personne> personsByQuery(String query) {
         LOGGER.debug("Start PersonsByQuery query = {}", query);
         Query q = entityManager.createNativeQuery(query, Personne.class);
         LOGGER.debug("End PersonsByQuery query = {}", query);

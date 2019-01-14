@@ -1,5 +1,6 @@
 package fr.cfdt.gasel.groupeldap.connector;
 
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
 import fr.cfdt.gasel.ldap.dto.GaselLDAPEntry;
 import org.slf4j.Logger;
@@ -47,6 +48,6 @@ public class LdapClient {
             }
         }
         LOGGER.info("end get users by npas from LDAP");
-        return ldapUsers != null ? ldapUsers.stream().map(GaselLDAPEntry::getUid).collect(Collectors.toList()) : null;
+        return ldapUsers.stream().map(GaselLDAPEntry::getUid).collect(Collectors.toList());
     }
 }

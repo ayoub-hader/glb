@@ -1,11 +1,12 @@
 package fr.cfdt.gasel.groupeldap.service;
 
 import fr.cfdt.gasel.groupeldap.LdapGroupApplicationTests;
-import fr.cfdt.gasel.groupeldap.connector.groupDb.GroupRepository;
-import fr.cfdt.gasel.groupeldap.connector.groupDb.RequestRepository;
+import fr.cfdt.gasel.groupeldap.connector.groupdb.GroupRepository;
 import fr.cfdt.gasel.groupeldap.dto.GroupDto;
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.GroupMapper;
 import fr.cfdt.gasel.groupeldap.util.TestUtils;
+import fr.cfdt.gasel.ldap.GaselLDAPService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,10 @@ public class GroupServiceTest {
     GroupMapper groupMapper;
 
     @Mock
-    RequestRepository requestRepository;
+    GaselLDAPService gaselLDAPService;
+
+    @Mock
+    PersonService personService;
 
     @InjectMocks
     GroupService groupService;
@@ -78,9 +82,11 @@ public class GroupServiceTest {
     }
 
     @Test
-    public void testCreateGroup(){
+    public void testCreateGroup() throws TechnicalException {
         when(groupRepository.save(any())).thenReturn(TestUtils.createGroup(Long.valueOf(1)));
         when(groupMapper.groupModelToDto(any())).thenReturn(TestUtils.createGroupDto(Long.valueOf(1)));
+        when(gaselLDAPService.createLpdapGroup(any())).thenReturn(true);
+        when(personService.getMembers(any(),any(),any())).thenReturn(TestUtils.createPersonListDto());
         //then
         GroupDto group = TestUtils.createGroupDto(Long.valueOf(2));
         GroupDto result = groupService.createGroup(group);

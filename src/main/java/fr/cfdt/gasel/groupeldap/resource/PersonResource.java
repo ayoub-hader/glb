@@ -1,9 +1,10 @@
 package fr.cfdt.gasel.groupeldap.resource;
 
 
-import fr.cfdt.gasel.groupeldap.connector.groupDb.RequestRepository;
+import fr.cfdt.gasel.groupeldap.connector.groupdb.RequestRepository;
 import fr.cfdt.gasel.groupeldap.dto.PersonneDto;
 import fr.cfdt.gasel.groupeldap.dto.RequestDto;
+import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.RequestMapper;
 import fr.cfdt.gasel.groupeldap.model.Request;
 import fr.cfdt.gasel.groupeldap.service.CsvWriterService;
@@ -61,7 +62,7 @@ public class PersonResource {
 
     @GetMapping("/members/{query}/{page}/{size}")
     @ApiOperation(value = "Récupérer la liste des membres en exécutant la requête")
-    public List<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size){
+    public List<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size) throws TechnicalException {
         LOGGER.info("Start Get getMembersByQuery ");
         List<PersonneDto> members = personService.getMembers(query , page , size);
         LOGGER.info("End Get getMembersByQuery ");
@@ -70,7 +71,7 @@ public class PersonResource {
 
     @GetMapping("/Export/{query}")
     @ApiOperation(value = "Exporter la liste des membres")
-    public byte[] exportMembers(@PathVariable String query , HttpServletResponse response){
+    public byte[] exportMembers(@PathVariable String query , HttpServletResponse response) throws TechnicalException {
         LOGGER.info("Start exportMembers");
         List<PersonneDto> members = personService.getMembers(query , null , null);
         List<String[]> lines = new ArrayList<>();
@@ -91,11 +92,10 @@ public class PersonResource {
 
     @GetMapping("/Rechercher/{query}/{criteria}")
     @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
-    public List<PersonneDto> rechercherMembers(@PathVariable String query , String criteria){
+    public List<PersonneDto> rechercherMembers(@PathVariable String query , String criteria) throws TechnicalException {
         LOGGER.info("Start rechercherMembers");
         List<PersonneDto> members = personService.getMembers(query , null , null);
-        List<PersonneDto> membersFilter = members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
-        return membersFilter;
+        return members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
     }
 
 }
