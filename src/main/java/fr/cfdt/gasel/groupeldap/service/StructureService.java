@@ -39,6 +39,6 @@ public class StructureService {
             pageContent = structuresEbx;
         }
         LOGGER.info("End service getStructuresByType ");
-        return new PageImpl<>(structureMapper.listStructureModelToDto(pageContent), PageRequest.of(page, size) , structuresEbx.size());
+        return new PageImpl<>(structureMapper.listStructureModelToDto(pageContent), PageRequest.of(page-1, size) , structuresEbx.size());
     }
 }
