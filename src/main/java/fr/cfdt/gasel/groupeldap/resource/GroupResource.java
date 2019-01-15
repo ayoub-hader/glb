@@ -35,7 +35,7 @@ public class GroupResource {
 
     @GetMapping("/")
     @ApiModelProperty("Recupérer la liste des groupes")
-    public Resources<GroupDto> getAllGroups(){
+    public Resources<GroupDto> getAllGroups() {
         LOGGER.info("Start Get All groups ");
 
         List<GroupDto> groups = groupService.getAllGroups();
@@ -49,15 +49,15 @@ public class GroupResource {
 
     @DeleteMapping("{idGroup}")
     @ApiModelProperty("Supprimer un groupe par ID")
-    public void deleteGroup(@ApiParam("Id du groupe à supprimer") @PathVariable Long idGroup){
+    public void deleteGroup(@ApiParam("Id du groupe à supprimer") @PathVariable Long idGroup) {
         LOGGER.info("start delete group by ID = {}", idGroup);
         groupService.deleteGroup(idGroup);
         LOGGER.info("end delete group by ID = {}", idGroup);
     }
 
-    @PostMapping("{group}")
+    @PostMapping("")
     @ApiModelProperty("Créer un Groupe")
-    public GroupDto saveGroup(GroupDto group) throws TechnicalException {
+    public GroupDto saveGroup(@RequestBody GroupDto group) throws TechnicalException {
         return groupService.createGroup(group);
     }
 
