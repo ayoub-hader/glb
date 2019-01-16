@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -46,8 +49,9 @@ public class PersonService {
     PagingUtil pagingUtil;
 
 
-    public List<PersonneDto> getMembers(String query , Integer page , Integer size) throws TechnicalException{
-        List<PersonneDto> result = null;
+    public Page<PersonneDto> getMembers(String query , Integer page , Integer size) throws TechnicalException{
+        Page<PersonneDto> result;
+        List<Personne> tmp = null;
         LOGGER.info("Start service getMembers ");
         try{
             List<Personne> personEbx = personRepositoryImpl.personsByQuery(query);
@@ -56,16 +60,20 @@ public class PersonService {
             List<String> npasLdap = ldapClient.getLdapUsersByNpa(npas);
             //faire l'intersection
             if(npasLdap != null && !npasLdap.isEmpty()){
-                result = personMapper.listPersonneModelToDto(personEbx.stream().filter(p -> npasLdap.contains(p.getNpa())).collect(Collectors.toList()));
+                tmp = personEbx.stream().filter(p -> npasLdap.contains(p.getNpa())).collect(Collectors.toList());
             }
         } catch (Exception e){
             LOGGER.error("Call to WS Get getLdapUsersByNpa failed, reason : {}", e.getMessage());
             throw new TechnicalException(messagesProperties.getTechnicalExceptionInGetLdapUsersByNpas());
         }
-        LOGGER.info("End service getMembers ");
+        List<Personne> pageCont;
         if(page != null && size != null){
-            result = pagingUtil.getPage(result , page , size);
+            pageCont = pagingUtil.getPage(tmp , page , size);
+            result = new PageImpl<>(personMapper.listPersonneModelToDto(pageCont), PageRequest.of(page - 1, size), tmp.size());
+        } else {
+            result = new PageImpl<>(personMapper.listPersonneModelToDto(tmp));
         }
+        LOGGER.info("End service getMembers ");
         return result;
     }
 }

@@ -111,7 +111,7 @@ public class GroupService {
      */
     public List<String> getLdapMembers(String request) throws TechnicalException {
         List<String> result;
-        List<PersonneDto> listMembers = personService.getMembers(request , null , null);
+        List<PersonneDto> listMembers = personService.getMembers(request , null , null).getContent();
         result = listMembers.stream().map(p -> "uid="+p.getNpa()+",ou=utilisateurs,dc=cfdt,dc=fr").collect(Collectors.toList());
         return result;
     }

@@ -9,6 +9,8 @@ import fr.cfdt.gasel.schema.v0.ebx.personne.PersonneType;
 import fr.cfdt.gasel.schema.v0.ebx.personne.SelectPersonneResponseType;
 import fr.cfdt.gasel.schema.v0.ebx.structure.SelectStructureResponseType;
 import fr.cfdt.gasel.schema.v0.ebx.structure.StructureType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,6 +108,17 @@ public class TestUtils {
         result.add(person2);
         result.add(person3);
         return result;
+    }
+
+    public static Page<PersonneDto> createPersonPageDto(){
+        List<PersonneDto> result = new ArrayList<>();
+        PersonneDto person1 = createPersonDto(Long.valueOf(1));
+        PersonneDto person2 = createPersonDto(Long.valueOf(2));
+        PersonneDto person3 = createPersonDto(Long.valueOf(3));
+        result.add(person1);
+        result.add(person2);
+        result.add(person3);
+        return new PageImpl<>(result);
     }
 
 

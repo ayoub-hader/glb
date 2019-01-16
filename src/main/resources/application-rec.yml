@@ -25,7 +25,7 @@ spring:
   cache:
     type: redis
   redis:
-    host: localhost
+    host: 127.0.0.1
     port: 6379
   batch:
     job:
@@ -40,9 +40,9 @@ cron:
 
 group-ldap:
   client:
-    personEbxProxy: 'http://localhost:8888/esb/ebx/personne'
-    structureEbxProxy: 'http://localhost:8888/esb/ebx/structure'
-    parameterEbxProxy: 'http://localhost:8888/esb/ebx/parametres'
+    personEbxProxy: 'http://192.168.1.239:8888/esb/ebx/personne'
+    structureEbxProxy: 'http://192.168.1.239:8888/esb/ebx/structure'
+    parameterEbxProxy: 'http://192.168.1.239:8888/esb/ebx/parametres'
     ldapPort: 389
     ldapHostName: 172.20.16.4
     ldapBindPassword: esDAPsmbP
