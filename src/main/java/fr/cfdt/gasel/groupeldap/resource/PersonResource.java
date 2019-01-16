@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -49,22 +50,22 @@ public class PersonResource {
     @Autowired
     RequestMapper requestMapper;
 
-    @GetMapping("/requests")
-    @ApiOperation(value = "Récupérer la liste des requettes")
-    public List<RequestDto> getAllRequests(){
-        LOGGER.info("Start Get All requests List ");
-
-        List<Request> reqTmp = requestRepository.findAll();
-        List<RequestDto> req = requestMapper.mapListRequestModeltodto(reqTmp);
-        LOGGER.info("End Get All persons List ");
-        return req;
-    }
+//    @GetMapping("/requests")
+//    @ApiOperation(value = "Récupérer la liste des requettes")
+//    public List<RequestDto> getAllRequests(){
+//        LOGGER.info("Start Get All requests List ");
+//
+//        List<Request> reqTmp = requestRepository.findAll();
+//        List<RequestDto> req = requestMapper.mapListRequestModeltodto(reqTmp);
+//        LOGGER.info("End Get All persons List ");
+//        return req;
+//    }
 
     @GetMapping("/members/{query}/{page}/{size}")
     @ApiOperation(value = "Récupérer la liste des membres en exécutant la requête")
-    public List<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size) throws TechnicalException {
+    public Page<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size) throws TechnicalException {
         LOGGER.info("Start Get getMembersByQuery ");
-        List<PersonneDto> members = personService.getMembers(query , page , size).getContent();
+        Page<PersonneDto> members = personService.getMembers(query , page , size);
         LOGGER.info("End Get getMembersByQuery ");
         return members;
     }
