@@ -10,12 +10,15 @@ import fr.cfdt.gasel.groupeldap.model.Request;
 import fr.cfdt.gasel.groupeldap.service.CsvWriterService;
 import fr.cfdt.gasel.groupeldap.service.GroupService;
 import fr.cfdt.gasel.groupeldap.service.PersonService;
+import fr.cfdt.gasel.groupeldap.util.PagingUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -49,6 +52,9 @@ public class PersonResource {
 
     @Autowired
     RequestMapper requestMapper;
+
+    @Autowired
+    PagingUtil pagingUtil;
 
 //    @GetMapping("/requests")
 //    @ApiOperation(value = "Récupérer la liste des requettes")
@@ -91,12 +97,15 @@ public class PersonResource {
 //        return result;
 //    }
 //
-    @GetMapping("/Rechercher/{query}/{criteria}")
+    @GetMapping("/Rechercher/{query}/{criteria}/{page}/{size}")
     @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
-    public List<PersonneDto> rechercherMembers(@PathVariable String query , String criteria) throws TechnicalException {
+    public Page<PersonneDto> rechercherMembers(@PathVariable String query ,@PathVariable String criteria, @PathVariable int page,@PathVariable int size) throws TechnicalException {
         LOGGER.info("Start rechercherMembers");
         List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
-        return members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
+        List<PersonneDto> tmp = members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
+        List<PersonneDto> pageContent = pagingUtil.getPage(tmp, page, size);
+        LOGGER.info("End rechercherMembers ");
+        return new PageImpl<>(pageContent, PageRequest.of(page-1, size) , tmp.size());
     }
 
 }
