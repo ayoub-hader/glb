@@ -64,7 +64,7 @@ public class PersonResource {
     @ApiOperation(value = "Récupérer la liste des membres en exécutant la requête")
     public List<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size) throws TechnicalException {
         LOGGER.info("Start Get getMembersByQuery ");
-        List<PersonneDto> members = personService.getMembers(query , page , size);
+        List<PersonneDto> members = personService.getMembers(query , page , size).getContent();
         LOGGER.info("End Get getMembersByQuery ");
         return members;
     }
@@ -73,7 +73,7 @@ public class PersonResource {
     @ApiOperation(value = "Exporter la liste des membres")
     public byte[] exportMembers(@PathVariable String query , HttpServletResponse response) throws TechnicalException {
         LOGGER.info("Start exportMembers");
-        List<PersonneDto> members = personService.getMembers(query , null , null);
+        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
         List<String[]> lines = new ArrayList<>();
         String[] header = {"Syndicat" , "Nom" , "Npa"};
         lines.add(header);
@@ -94,7 +94,7 @@ public class PersonResource {
     @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
     public List<PersonneDto> rechercherMembers(@PathVariable String query , String criteria) throws TechnicalException {
         LOGGER.info("Start rechercherMembers");
-        List<PersonneDto> members = personService.getMembers(query , null , null);
+        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
         return members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
     }
 
