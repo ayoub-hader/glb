@@ -70,27 +70,27 @@ public class PersonResource {
         return members;
     }
 
-    @GetMapping("/Export/{query}")
-    @ApiOperation(value = "Exporter la liste des membres")
-    public byte[] exportMembers(@PathVariable String query , HttpServletResponse response) throws TechnicalException {
-        LOGGER.info("Start exportMembers");
-        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
-        List<String[]> lines = new ArrayList<>();
-        String[] header = {"Syndicat" , "Nom" , "Npa"};
-        lines.add(header);
-        for(PersonneDto member : members){
-            lines.add(new String[]{member.getSyndicat() != null ? member.getSyndicat().getMatricule() : "", member.getNom() + " " + member.getPrenom(), member.getNpa()});
-        }
-        byte[] result = null;
-        try {
-            result = csvWriterService.generateCsv(lines , response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LOGGER.info("End exportMembers ");
-        return result;
-    }
-
+//    @GetMapping("/Export/{query}")
+//    @ApiOperation(value = "Exporter la liste des membres")
+//    public byte[] exportMembers(@PathVariable String query , HttpServletResponse response) throws TechnicalException {
+//        LOGGER.info("Start exportMembers");
+//        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
+//        List<String[]> lines = new ArrayList<>();
+//        String[] header = {"Syndicat" , "Nom" , "Npa"};
+//        lines.add(header);
+//        for(PersonneDto member : members){
+//            lines.add(new String[]{member.getSyndicat() != null ? member.getSyndicat().getMatricule() : "", member.getNom() + " " + member.getPrenom(), member.getNpa()});
+//        }
+//        byte[] result = null;
+//        try {
+//            result = csvWriterService.generateCsv(lines , response);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        LOGGER.info("End exportMembers ");
+//        return result;
+//    }
+//
     @GetMapping("/Rechercher/{query}/{criteria}")
     @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
     public List<PersonneDto> rechercherMembers(@PathVariable String query , String criteria) throws TechnicalException {
