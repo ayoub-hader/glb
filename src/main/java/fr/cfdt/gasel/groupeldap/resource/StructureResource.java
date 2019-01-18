@@ -36,9 +36,9 @@ public class StructureResource {
         return structures;
     }
 
-    @GetMapping("/{type}/{ids}")
+    @GetMapping("/{ids}")
     @ApiOperation(value = "Récupérer la liste des structure par type et ids")
-    public List<StructureDto> getStructuresbyIds(@PathVariable String type , @PathVariable String ids) {
+    public List<StructureDto> getStructuresbyIds(@PathVariable String ids) {
         LOGGER.info("Start Get getStructuresbyIds ");
         List<String> listIds = Arrays.asList(ids.split(","));
         List<StructureDto> structures = structureService.getStructuresByIds(listIds);
