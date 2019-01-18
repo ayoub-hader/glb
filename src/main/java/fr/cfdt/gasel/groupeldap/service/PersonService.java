@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,8 +71,10 @@ public class PersonService {
         if(page != null && size != null){
             pageCont = pagingUtil.getPage(tmp , page , size);
             result = new PageImpl<>(personMapper.listPersonneModelToDto(pageCont), PageRequest.of(page - 1, size), tmp.size());
-        } else {
+        } else if(tmp != null){
             result = new PageImpl<>(personMapper.listPersonneModelToDto(tmp));
+        } else {
+            result = new PageImpl<>(personMapper.listPersonneModelToDto(new ArrayList<>()));
         }
         LOGGER.info("End service getMembers ");
         return result;

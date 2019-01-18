@@ -12,9 +12,11 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +38,12 @@ public class UpdateLdapBatch implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws TechnicalException {
+        updateLdap();
+        return RepeatStatus.FINISHED;
+    }
+
+    @Transactional
+    public void updateLdap() throws TechnicalException{
         LOGGER.info("start batch update group members Ldap");
         // recuperer la liste des groupes depuis la base
         //test commit
@@ -50,6 +58,10 @@ public class UpdateLdapBatch implements Tasklet {
                 LOGGER.info("Batch update group members Ldap : recuperer la liste des membres depuis LDAP pour le groupe ID = {}", group.getIdGroup());
                 GaselGroupeLDAPEntry groupLdap = gaselLDAPService.getGroupeByCn(String.valueOf(group.getIdGroup()));
                 if(!baseMembers.equals(groupLdap.getMember())){
+                    if(baseMembers == null || baseMembers.size() <= 0){
+                        baseMembers = new ArrayList<>();
+                        baseMembers.add("");
+                    }
                     boolean resultBatch = gaselLDAPService.updateLdapGroupMembers(baseMembers, String.valueOf(group.getIdGroup()));
                     //mise a jour du nombre des membre dans la table groupe ldap
                     if(resultBatch){
@@ -60,6 +72,5 @@ public class UpdateLdapBatch implements Tasklet {
             }
         }
         LOGGER.info("end batch update group members Ldap");
-        return RepeatStatus.FINISHED;
     }
 }

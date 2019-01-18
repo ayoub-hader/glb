@@ -16,6 +16,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resources;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,6 +119,99 @@ public class ParameterResource {
             e.printStackTrace();
         }
         LOGGER.info("End getAllOrganismeInstance");
+        return hateoasList;
+    }
+
+    /**
+     *
+     * @param codes
+     * @return
+     */
+    @GetMapping("/typeStructure/{ids}")
+    @ApiModelProperty("Recupérer type structure par codes")
+    public Resources<TypeStructureDto> getTypeStructureByIds(@PathVariable String codes){
+        LOGGER.info("Start getTypeStructureByIds ");
+        Resources<TypeStructureDto> hateoasList = null;
+        try {
+            List<TypeStructureDto> typeStructureDtos = parameterService.getAllStructureTypes();
+            List<String> listIds = Arrays.asList(codes.split(","));
+            List<TypeStructureDto> tmp = typeStructureDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
+            Link link = linkTo(methodOn(this.getClass()).getTypeStructureByIds(codes)).withSelfRel();
+            hateoasList = new Resources<>(tmp, link);
+        } catch (StandardException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("End getTypeStructureByIds");
+        return hateoasList;
+    }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
+    @GetMapping("{type}/{ids}")
+    @ApiModelProperty("Recupérer la liste des dénomination par ids")
+    public Resources<RoleDto> getAllDenominationByIds(@ApiParam("type dénomination resp-mandat") @PathVariable String type , @PathVariable String ids){
+        LOGGER.info("Start getAllDenominationByIds ");
+        Resources<RoleDto> hateoasList = null;
+        List<RoleDto> result = null;
+        List<String> listIds = Arrays.asList(ids.split(","));
+        try {
+            List<RoleDto> tmp = parameterService.getAllRoles();
+            if(tmp != null && !tmp.isEmpty() && type != null){
+                result = tmp.stream().filter(r -> type.equalsIgnoreCase(splitRole(r.getCode())) && ids.contains(r.getId().toString())).collect(Collectors.toList());
+            }
+            Link link = linkTo(methodOn(this.getClass()).getAllDenominationByIds(type , ids)).withSelfRel();
+            hateoasList = new Resources<>(result, link);
+        } catch (StandardException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("End getAllDenominationByIds");
+        return hateoasList;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/listeResponsabiliteInstance/{ids}")
+    @ApiModelProperty("Recupérer la liste des Responsabilité Instance par ids")
+    public Resources<ResponsabiliteInstanceDto> getRespInstanceByIds(@PathVariable String ids){
+        LOGGER.info("Start getRespInstanceByIds ");
+        Resources<ResponsabiliteInstanceDto> hateoasList = null;
+        try {
+            List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
+            List<String> listIds = Arrays.asList(ids.split(","));
+            List<ResponsabiliteInstanceDto> tmp = responsabiliteInstanceDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
+            Link link = linkTo(methodOn(this.getClass()).getRespInstanceByIds(ids)).withSelfRel();
+            hateoasList = new Resources<>(tmp, link);
+        } catch (StandardException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("End getRespInstanceByIds");
+        return hateoasList;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/listeOrganismeInstance/{ids}")
+    @ApiModelProperty("Recupérer la liste des Organisme Instance by ids")
+    public Resources<OrganismeInstanceDto> getOrganismeInstanceByIds(@PathVariable String ids){
+        LOGGER.info("Start getOrganismeInstanceByIds ");
+        Resources<OrganismeInstanceDto> hateoasList = null;
+        try {
+            List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
+            List<String> listIds = Arrays.asList(ids.split(","));
+            List<OrganismeInstanceDto> tmp = organismeInstanceDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
+            Link link = linkTo(methodOn(this.getClass()).getOrganismeInstanceByIds(ids)).withSelfRel();
+            hateoasList = new Resources<>(tmp, link);
+        } catch (StandardException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("End getOrganismeInstanceByIds");
         return hateoasList;
     }
 

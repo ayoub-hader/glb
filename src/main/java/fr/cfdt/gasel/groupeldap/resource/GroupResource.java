@@ -1,5 +1,6 @@
 package fr.cfdt.gasel.groupeldap.resource;
 
+import fr.cfdt.gasel.groupeldap.batch.UpdateLdapBatch;
 import fr.cfdt.gasel.groupeldap.dto.GroupDto;
 import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.service.CsvWriterService;
@@ -33,6 +34,9 @@ public class GroupResource {
     @Autowired
     CsvWriterService csvWriterService;
 
+    @Autowired
+    UpdateLdapBatch updateLdapBatch;
+
     @GetMapping("/")
     @ApiModelProperty("Recupérer la liste des groupes")
     public Resources<GroupDto> getAllGroups() {
@@ -59,6 +63,12 @@ public class GroupResource {
     @ApiModelProperty("Créer un Groupe")
     public GroupDto saveGroup(@RequestBody GroupDto group) throws TechnicalException {
         return groupService.createGroup(group);
+    }
+
+    @GetMapping("/updateLdapBatch")
+    @ApiModelProperty("Batch update LDAP")
+    public void updateLdap() throws TechnicalException {
+        updateLdapBatch.updateLdap();
     }
 
 }

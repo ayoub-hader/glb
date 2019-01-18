@@ -2,19 +2,13 @@ package fr.cfdt.gasel.groupeldap.service;
 
 import fr.cfdt.gasel.groupeldap.connector.PersonClient;
 import fr.cfdt.gasel.groupeldap.connector.groupdb.GroupRepository;
-import fr.cfdt.gasel.groupeldap.connector.groupdb.RequestRepository;
 import fr.cfdt.gasel.groupeldap.dto.GroupDto;
 import fr.cfdt.gasel.groupeldap.dto.PersonneDto;
-import fr.cfdt.gasel.groupeldap.enumeration.BranchEnum;
 import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.GroupMapper;
 import fr.cfdt.gasel.groupeldap.model.Group;
-import fr.cfdt.gasel.groupeldap.util.BusinessUtils;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
 import fr.cfdt.gasel.ldap.dto.GaselGroupeLDAPEntry;
-import fr.cfdt.gasel.schema.v0.ebx.personne.PersonneType;
-import fr.cfdt.gasel.schema.v0.ebx.personne.SelectPersonneRequestType.Pagination;
-import fr.cfdt.gasel.service.ebx.personne.v0.StandardException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +40,6 @@ public class GroupService {
     private GaselLDAPService gaselLDAPService;
 
     @Autowired
-    private RequestRepository requestRepository;
-
-    @Autowired
     private PersonService personService;
 
     public List<GroupDto> getAllGroups(){
@@ -64,10 +55,10 @@ public class GroupService {
        Optional<Group> group = groupRepository.findById(groupId);
        Long idRequest = group.isPresent() && group.get().getRequest() != null ? group.get().getRequest().getIdRequest() : null;
         //delete group
-        groupRepository.deleteById(groupId);
-        //delete request
-        if(idRequest != null){
-            requestRepository.deleteById(idRequest);
+        // supprimer le groupe ldap
+        boolean resultLdap = gaselLDAPService.deleteLdapGroup(groupId.toString());
+        if(resultLdap){
+            groupRepository.deleteById(groupId);
         }
     }
 
@@ -113,6 +104,9 @@ public class GroupService {
         List<String> result;
         List<PersonneDto> listMembers = personService.getMembers(request , null , null).getContent();
         result = listMembers.stream().map(p -> "uid="+p.getNpa()+",ou=utilisateurs,dc=cfdt,dc=fr").collect(Collectors.toList());
+        if(result == null || result.size() <= 0){
+            result.add("uid=required_member,ou=utilisateurs,dc=cfdt,dc=fr");
+        }
         return result;
     }
 }
