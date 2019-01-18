@@ -1,6 +1,5 @@
 package fr.cfdt.gasel.groupeldap.connector;
 
-import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
 import fr.cfdt.gasel.ldap.dto.GaselLDAPEntry;
 import org.slf4j.Logger;
