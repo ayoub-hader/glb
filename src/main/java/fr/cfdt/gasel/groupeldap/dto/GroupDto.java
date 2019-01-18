@@ -12,12 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GroupDto {
     Long id;
-
     String name;
-
     String description;
-
     String membersNumber;
-
     RequestDto request;
+    String structures;
+    String denominationsResp;
+    String denominationsMandat;
+    String respInstances;
+    String organismeInstances;
+    String typeStructures;
 }
