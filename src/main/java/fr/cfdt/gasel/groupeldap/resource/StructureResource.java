@@ -26,7 +26,7 @@ public class StructureResource {
     @Autowired
     StructureService structureService;
 
-    @GetMapping("/structures/{type}/{page}/{size}")
+    @GetMapping("/{type}/{page}/{size}")
     @ApiOperation(value = "Récupérer la liste des structure par type")
     public Page<StructureDto> getStructures(@PathVariable String type , @PathVariable int page , @PathVariable int size) {
         LOGGER.info("Start Get getStructures ");
