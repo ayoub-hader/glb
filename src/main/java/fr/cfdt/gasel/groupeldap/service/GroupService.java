@@ -2,11 +2,14 @@ package fr.cfdt.gasel.groupeldap.service;
 
 import fr.cfdt.gasel.groupeldap.connector.PersonClient;
 import fr.cfdt.gasel.groupeldap.connector.groupdb.GroupRepository;
+import fr.cfdt.gasel.groupeldap.connector.groupdb.RequestRepository;
 import fr.cfdt.gasel.groupeldap.dto.GroupDto;
 import fr.cfdt.gasel.groupeldap.dto.PersonneDto;
+import fr.cfdt.gasel.groupeldap.enumeration.BranchEnum;
 import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.GroupMapper;
 import fr.cfdt.gasel.groupeldap.model.Group;
+import fr.cfdt.gasel.groupeldap.util.BusinessUtils;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
 import fr.cfdt.gasel.ldap.dto.GaselGroupeLDAPEntry;
 import org.slf4j.Logger;
@@ -42,28 +45,28 @@ public class GroupService {
     @Autowired
     private PersonService personService;
 
-    public List<GroupDto> getAllGroups(){
+    public List<GroupDto> getAllGroups() {
         return groupMapper.listGroupModelToDto(groupRepository.findAll());
     }
 
     /**
-     *
-     * @param groupId
+     * @param groupIds
      */
-    public void deleteGroup(Long groupId) {
-        //recuperer l'id de la requette
-       Optional<Group> group = groupRepository.findById(groupId);
-       Long idRequest = group.isPresent() && group.get().getRequest() != null ? group.get().getRequest().getIdRequest() : null;
-        //delete group
-        // supprimer le groupe ldap
-        boolean resultLdap = gaselLDAPService.deleteLdapGroup(groupId.toString());
-        if(resultLdap){
-            groupRepository.deleteById(groupId);
-        }
+    public void deleteGroup(List<Long> groupIds) {
+        groupIds.forEach(groupId -> {
+            //recuperer l'id de la requette
+            Optional<Group> group = groupRepository.findById(groupId);
+            Long idRequest = group.isPresent() && group.get().getRequest() != null ? group.get().getRequest().getIdRequest() : null;
+            //delete group
+            // supprimer le groupe ldap
+            boolean resultLdap = gaselLDAPService.deleteLdapGroup(groupId.toString());
+            if (resultLdap) {
+                groupRepository.deleteById(groupId);
+            }
+        });
     }
 
     /**
-     *
      * @param group
      * @return
      */
@@ -71,20 +74,20 @@ public class GroupService {
         // creer le groupe dans la base
         GroupDto groupDto = groupMapper.groupModelToDto(groupRepository.save(groupMapper.groupDtoToModel(group)));
         GaselGroupeLDAPEntry gaselGroupeLDAPEntry = new GaselGroupeLDAPEntry();
-        if(groupDto != null) {
+        if (groupDto != null) {
             //creation du groupe dans Ldap
             gaselGroupeLDAPEntry.setCfdtIntituleGroup(groupDto.getName());
             gaselGroupeLDAPEntry.setCn(String.valueOf(groupDto.getId()));
             gaselGroupeLDAPEntry.setDescription(groupDto.getDescription());
             gaselGroupeLDAPEntry.setCfdtTypeGroup("personnalise");
-            if(groupDto.getRequest() != null){
+            if (groupDto.getRequest() != null) {
                 //recuperer la liste des membre
                 gaselGroupeLDAPEntry.setMember(getLdapMembers(groupDto.getRequest().getRequest()));
             }
         }
         boolean resultLdapCreation = gaselLDAPService.createLpdapGroup(gaselGroupeLDAPEntry);
         //suppression du groupe suite a une excepion ldap
-        if(!resultLdapCreation){
+        if (!resultLdapCreation) {
             groupRepository.deleteById(groupDto.getId());
             groupDto = null;
         } else {
@@ -96,7 +99,6 @@ public class GroupService {
     }
 
     /**
-     *
      * @param request
      * @return
      */

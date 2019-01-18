@@ -51,12 +51,13 @@ public class GroupResource {
         return hateoasList;
     }
 
-    @DeleteMapping("{idGroup}")
-    @ApiModelProperty("Supprimer un groupe par ID")
-    public void deleteGroup(@ApiParam("Id du groupe à supprimer") @PathVariable Long idGroup) {
-        LOGGER.info("start delete group by ID = {}", idGroup);
-        groupService.deleteGroup(idGroup);
-        LOGGER.info("end delete group by ID = {}", idGroup);
+    @PostMapping("/deleteGroups")
+    @ApiModelProperty("Supprimer une liste des groupes par ID")
+    public List<Long> deleteGroup(@ApiParam("Ids des groupes à supprimes") @RequestBody List<Long> idsGroups) {
+        LOGGER.info("start delete groups by ID");
+        groupService.deleteGroup(idsGroups);
+        LOGGER.info("end delete groups by ID ");
+        return idsGroups;
     }
 
     @PostMapping("")
