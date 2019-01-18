@@ -18,17 +18,31 @@ public class Group {
     @Column(name = "ID_LDAP_GROUP")
     Long idGroup;
 
-    @Column(name = "NAME")
+    @Column(name = "NOM_GROUPE")
     String name;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION_GROUPE")
     String description;
 
-    @Column(name = "MEMBERS_NUMBER")
+    @Column(name = "NOMBRE_MEMBRES")
     String membersNumber;
+
+    @Column(name = "STRUCTURES")
+    String structures;
+
+    @Column(name = "DENOMINATION_RESPONSABILITE")
+    String denominationsResp;
+
+    @Column(name = "DENOMINATION_MANDAT")
+    String denominationsMandat;
+
+    @Column(name = "RESPONSABILITE_INSTANCE")
+    String respInstances;
+
+    @Column(name = "ORGANISME_INSTANCE")
+    String organismeInstances;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_REQUEST")
     private Request request;
 }
-

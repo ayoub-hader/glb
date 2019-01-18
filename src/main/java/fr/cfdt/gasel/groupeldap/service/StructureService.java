@@ -41,4 +41,11 @@ public class StructureService {
         LOGGER.info("End service getStructuresByType ");
         return new PageImpl<>(structureMapper.listStructureModelToDto(pageContent), PageRequest.of(page-1, size) , structuresEbx.size());
     }
+
+    public List<StructureDto> getStructuresByIds(List<String> ids) {
+        LOGGER.info("Start service getStructuresByIds ");
+        List<Structure> structuresEbx = structureRepository.findAllById(ids);
+        LOGGER.info("End service getStructuresByIds ");
+        return structureMapper.listStructureModelToDto(structuresEbx);
+    }
 }

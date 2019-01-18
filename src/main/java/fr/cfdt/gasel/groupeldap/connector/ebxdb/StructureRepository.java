@@ -15,4 +15,6 @@ public interface StructureRepository extends JpaRepository<Structure , Long> {
 
     @Cacheable(value="structuresByType")
     List<Structure> findByType(String type);
+
+    List<Structure> findAllById(List<String> ids);
 }

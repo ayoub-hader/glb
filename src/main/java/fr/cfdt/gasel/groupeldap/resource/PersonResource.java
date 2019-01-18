@@ -97,15 +97,15 @@ public class PersonResource {
 //        return result;
 //    }
 //
-    @GetMapping("/Rechercher/{query}/{criteria}/{page}/{size}")
-    @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
-    public Page<PersonneDto> rechercherMembers(@PathVariable String query ,@PathVariable String criteria, @PathVariable int page,@PathVariable int size) throws TechnicalException {
-        LOGGER.info("Start rechercherMembers");
-        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
-        List<PersonneDto> tmp = members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
-        List<PersonneDto> pageContent = pagingUtil.getPage(tmp, page, size);
-        LOGGER.info("End rechercherMembers ");
-        return new PageImpl<>(pageContent, PageRequest.of(page-1, size) , tmp.size());
-    }
+//    @GetMapping("/Rechercher/{query}/{criteria}/{page}/{size}")
+//    @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
+//    public Page<PersonneDto> rechercherMembers(@PathVariable String query ,@PathVariable String criteria, @PathVariable int page,@PathVariable int size) throws TechnicalException {
+//        LOGGER.info("Start rechercherMembers");
+//        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
+//        List<PersonneDto> tmp = members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
+//        List<PersonneDto> pageContent = pagingUtil.getPage(tmp, page, size);
+//        LOGGER.info("End rechercherMembers ");
+//        return new PageImpl<>(pageContent, PageRequest.of(page-1, size) , tmp.size());
+//    }
 
 }
