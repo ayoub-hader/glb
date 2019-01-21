@@ -44,7 +44,7 @@ public class StructureService {
 
     public List<StructureDto> getStructuresByIds(List<String> ids) {
         LOGGER.info("Start service getStructuresByIds ");
-        List<Structure> structuresEbx = structureRepository.findAllById(ids);
+        List<Structure> structuresEbx = structureRepository.findStructuresByIds(ids);
         LOGGER.info("End service getStructuresByIds ");
         return structureMapper.listStructureModelToDto(structuresEbx);
     }
