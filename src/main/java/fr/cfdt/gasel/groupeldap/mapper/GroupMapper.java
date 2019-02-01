@@ -16,5 +16,6 @@ public interface GroupMapper {
     List<GroupDto> listGroupModelToDto(List<Group> groups);
 
     @Mapping(source = "id", target = "idGroup")
+    @Mapping(source = "typesStructure", target = "typesStructure")
     Group groupDtoToModel(GroupDto group);
 }

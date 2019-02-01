@@ -42,6 +42,9 @@ public class Group {
     @Column(name = "ORGANISME_INSTANCE")
     String organismeInstances;
 
+    @Column(name = "TYPE_STRUCTURES")
+    String typesStructure;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_REQUEST")
     private Request request;

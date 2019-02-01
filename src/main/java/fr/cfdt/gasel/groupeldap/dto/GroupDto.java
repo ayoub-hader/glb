@@ -21,4 +21,5 @@ public class GroupDto {
     String denominationsMandat;
     String respInstances;
     String organismeInstances;
+    String typesStructure;
 }

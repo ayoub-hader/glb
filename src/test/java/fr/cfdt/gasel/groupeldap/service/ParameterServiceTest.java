@@ -1,14 +1,16 @@
 package fr.cfdt.gasel.groupeldap.service;
 
 import fr.cfdt.gasel.groupeldap.LdapGroupApplicationTests;
-import fr.cfdt.gasel.groupeldap.connector.ParameterClient;
+import fr.cfdt.gasel.groupeldap.connector.ebxdb.RoleRepository;
+import fr.cfdt.gasel.groupeldap.connector.ebxdb.TypeMandatRepository;
+import fr.cfdt.gasel.groupeldap.connector.ebxdb.TypeResponsabiliteRepository;
+import fr.cfdt.gasel.groupeldap.connector.ebxdb.TypeStructureRepository;
 import fr.cfdt.gasel.groupeldap.dto.OrganismeInstanceDto;
 import fr.cfdt.gasel.groupeldap.dto.ResponsabiliteInstanceDto;
 import fr.cfdt.gasel.groupeldap.dto.RoleDto;
 import fr.cfdt.gasel.groupeldap.dto.TypeStructureDto;
 import fr.cfdt.gasel.groupeldap.mapper.ParametreMapper;
 import fr.cfdt.gasel.groupeldap.util.TestUtils;
-import fr.cfdt.gasel.service.ebx.parametres.v0.StandardException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +37,16 @@ import static org.mockito.Mockito.when;
 public class ParameterServiceTest {
 
     @Mock
-    ParameterClient parameterClient;
+    TypeStructureRepository typeStructureRepository;
+
+    @Mock
+    RoleRepository roleRepository;
+
+    @Mock
+    TypeResponsabiliteRepository typeResponsabiliteRepository;
+
+    @Mock
+    TypeMandatRepository typeMandatRepository;
 
     @Mock
     ParametreMapper parametreMapper;
@@ -49,9 +60,9 @@ public class ParameterServiceTest {
     }
 
     @Test
-    public void testGetAllStructureTypes() throws StandardException {
+    public void testGetAllStructureTypes() {
         //when
-        when(parameterClient.getAllTypeStructure()).thenReturn(TestUtils.createTypeStructureList());
+        when(typeStructureRepository.findAll()).thenReturn(TestUtils.createTypeStructureList());
         when(parametreMapper.listTypeStructureModelToDto(any())).thenReturn(TestUtils.createListTypeStructureDto());
 
         //then
@@ -62,9 +73,9 @@ public class ParameterServiceTest {
     }
 
     @Test
-    public void testGetAllRoles() throws StandardException {
+    public void testGetAllRoles() {
         //when
-        when(parameterClient.getListRoles()).thenReturn(TestUtils.createListRole());
+        when(roleRepository.findAll()).thenReturn(TestUtils.createListRole());
         when(parametreMapper.listRoleModelToDto(any())).thenReturn(TestUtils.createListRoleDto());
 
         //then
@@ -75,9 +86,9 @@ public class ParameterServiceTest {
     }
 
     @Test
-    public void testGetAllTypeResponsabilite() throws StandardException {
+    public void testGetAllTypeResponsabilite() {
         //when
-        when(parameterClient.getAllTypeResponsabilite()).thenReturn(TestUtils.createListTypeResponsabilte());
+        when(typeResponsabiliteRepository.findAll()).thenReturn(TestUtils.createListTypeResponsabilte());
         when(parametreMapper.listTypeResponsabiliteModelToDto(any())).thenReturn(TestUtils.createListTypeResponsabilteDto());
 
         //then
@@ -88,9 +99,9 @@ public class ParameterServiceTest {
     }
 
     @Test
-    public void testGetAllTypeMandat() throws StandardException {
+    public void testGetAllTypeMandat() {
         //when
-        when(parameterClient.getAllTypeMandat()).thenReturn(TestUtils.createListTypeMandat());
+        when(typeMandatRepository.findAll()).thenReturn(TestUtils.createListTypeMandat());
         when(parametreMapper.listTypeMandatModelToDto(any())).thenReturn(TestUtils.createListTypeMandatDto());
 
         //then

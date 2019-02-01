@@ -1,0 +1,42 @@
+structureFilleQuery: WITH structureFille (ID, LIENSADMINISTRATIFS_, NOM, MATRICULE, level) \
+  AS \
+  (\
+  SELECT str.ID, liens.LIENSADMINISTRATIFS_, str.NOM, str.MATRICULE, 0 AS level \
+  FROM EBX_REP_STRUCTURE AS str \
+  INNER JOIN EBX_REP_STRUCTURE_liensAdministratifs AS liens \
+  ON str.ID = liens.ID where str.ID IN ?1 \
+  UNION ALL \
+  SELECT str.ID, liens.LIENSADMINISTRATIFS_, str.NOM, str.MATRICULE, level + 1 \
+  FROM EBX_REP_STRUCTURE AS str \
+  INNER JOIN EBX_REP_STRUCTURE_liensAdministratifs AS liens \
+  ON str.ID = liens.ID \
+  INNER JOIN structureFille AS d \
+  ON liens.LIENSADMINISTRATIFS_ = d.ID\
+  ) \
+  SELECT DISTINCT CAST(ID as int) as ID \
+  FROM structureFille str where ID NOT IN ?1 ;\
+
+
+structureFilleQueryByType: WITH structureFille (ID, LIENSADMINISTRATIFS_, NOM, MATRICULE, TYPE_, level) \
+  AS \
+  ( \
+  SELECT str.ID, liens.LIENSADMINISTRATIFS_, str.NOM, str.MATRICULE, str.TYPE_, 0 AS level \
+  FROM EBX_REP_STRUCTURE AS str \
+  INNER JOIN EBX_REP_STRUCTURE_liensAdministratifs AS liens \
+  ON str.ID = liens.ID where str.ID IN ?0 \
+  UNION ALL \
+  SELECT str.ID, liens.LIENSADMINISTRATIFS_, str.NOM, str.MATRICULE, str.TYPE_, level + 1 \
+  FROM EBX_REP_STRUCTURE AS str \
+  INNER JOIN EBX_REP_STRUCTURE_liensAdministratifs AS liens \
+  ON str.ID = liens.ID \
+  INNER JOIN structureFille AS d \
+  ON liens.LIENSADMINISTRATIFS_ = d.ID \
+  ) \
+  SELECT DISTINCT CAST(ID as int) as ID \
+  FROM structureFille str where ID NOT IN ?0 AND str.TYPE_ IN (?1) ; \
+
+lienAdministratifQuery: SELECT * FROM EBX_REP_STRUCTURE WHERE ID IN \
+   (Select LIENSADMINISTRATIFS_ from EBX_REP_STRUCTURE_liensAdministratifs lienAdmin \
+  LEFT JOIN EBX_REP_STRUCTURE structure ON structure.ID = lienAdmin.ID \
+  LEFT JOIN EBX_REP_STRUCTURE lien ON lien.ID = lienAdmin.LIENSADMINISTRATIFS_ \
+  WHERE lienAdmin.ID IN ?1 AND lien.TYPE_ = ?2) \

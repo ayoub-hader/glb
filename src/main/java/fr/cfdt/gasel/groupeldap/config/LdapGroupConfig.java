@@ -1,11 +1,7 @@
 package fr.cfdt.gasel.groupeldap.config;
 
-import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.properties.LdapGroupProperties;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
-import fr.cfdt.gasel.service.ebx.parametres.v0.ParametresEBXInterface;
-import fr.cfdt.gasel.service.ebx.personne.v0.PersonneEBXInterface;
-import fr.cfdt.gasel.service.ebx.structure.v0.StructureEBXInterface;
 import lombok.RequiredArgsConstructor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +23,6 @@ public class LdapGroupConfig {
 
     @Autowired
     private LdapGroupProperties ldapGroupProperties;
-
-
-    /**
-     *
-     * @return
-     * @throws TechnicalException
-     */
-    @Bean(name = "personEbxProxy")
-    public PersonneEBXInterface personEbxProxy() throws TechnicalException {
-        return buildProxy(ldapGroupProperties.getPersonEbxProxy(), PersonneEBXInterface.class);
-    }
-
-    @Bean(name = "structureEbxProxy")
-    public StructureEBXInterface structureEbxProxy() throws TechnicalException {
-        return buildProxy(ldapGroupProperties.getStructureEbxProxy(), StructureEBXInterface.class);
-    }
-
-    @Bean(name = "parameterEbxProxy")
-    public ParametresEBXInterface parameterEbxProxy() throws TechnicalException {
-        return buildProxy(ldapGroupProperties.getParameterEbxProxy(), ParametresEBXInterface.class);
-    }
 
     @Bean(name = "ldapBean")
     public GaselLDAPService ldapBean() throws KeyStoreException {

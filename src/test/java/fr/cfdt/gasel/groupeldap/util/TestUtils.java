@@ -1,14 +1,8 @@
 package fr.cfdt.gasel.groupeldap.util;
 
 import fr.cfdt.gasel.groupeldap.dto.*;
-import fr.cfdt.gasel.groupeldap.model.Group;
-import fr.cfdt.gasel.groupeldap.model.Request;
+import fr.cfdt.gasel.groupeldap.model.*;
 import fr.cfdt.gasel.ldap.dto.GaselLDAPEntry;
-import fr.cfdt.gasel.schema.v0.ebx.parametres.*;
-import fr.cfdt.gasel.schema.v0.ebx.personne.PersonneType;
-import fr.cfdt.gasel.schema.v0.ebx.personne.SelectPersonneResponseType;
-import fr.cfdt.gasel.schema.v0.ebx.structure.SelectStructureResponseType;
-import fr.cfdt.gasel.schema.v0.ebx.structure.StructureType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -19,18 +13,8 @@ import java.util.List;
 public class TestUtils {
 
     //=============Parametres===============
-    public static SelectTypeStructureResponseType createSelectParameterResponse(String responseCode){
-        SelectTypeStructureResponseType resp = new SelectTypeStructureResponseType();
-        TypeStructureType data = new TypeStructureType();
-        TypeStructureType.Parametres param = new TypeStructureType.Parametres();
-        param.getTypeStructure().addAll(createTypeStructureList());
-        data.setParametres(param);
-        resp.setData(data);
-        return resp;
-    }
-
-    public static List<TypeStructureType.Parametres.TypeStructure> createTypeStructureList(){
-        List<TypeStructureType.Parametres.TypeStructure> result = new ArrayList<>();
+    public static List<TypeStructure> createTypeStructureList(){
+        List<TypeStructure> result = new ArrayList<>();
         result.add(createStructureTypeEbx(1));
         result.add(createStructureTypeEbx(2));
         result.add(createStructureTypeEbx(3));
@@ -38,11 +22,10 @@ public class TestUtils {
     }
 
 
-    public static TypeStructureType.Parametres.TypeStructure createStructureTypeEbx(int index){
-        ObjectFactory of = new ObjectFactory();
-        TypeStructureType.Parametres.TypeStructure structureType = new TypeStructureType.Parametres.TypeStructure();
-        structureType.setCode("code"+String.valueOf(index));
-        structureType.setLibelle(of.createTypeStructureTypeParametresTypeStructureLibelle("libelle"+String.valueOf(index)));
+    public static TypeStructure createStructureTypeEbx(int index){
+        TypeStructure structureType = new TypeStructure();
+        structureType.setCode("code"+index);
+        structureType.setLibelle("libelle"+index);
         return structureType;
     }
 
@@ -63,31 +46,12 @@ public class TestUtils {
     }
 
     //===================Personne===========================
-    public static SelectPersonneResponseType createSelectPersonResponse(String responseCode){
-        SelectPersonneResponseType resp = new SelectPersonneResponseType();
-        PersonneType data = new PersonneType();
-        PersonneType.Gasel gasel = new PersonneType.Gasel();
-        gasel.getPersonne().addAll(createPersonList());
-        data.setGasel(gasel);
-        resp.setData(data);
-        return resp;
-    }
 
-    public static List<PersonneType.Gasel.Personne> createPersonList(){
-        List<PersonneType.Gasel.Personne> result = new ArrayList<>();
-        result.add(createPersonEbx(1));
-        result.add(createPersonEbx(2));
-        result.add(createPersonEbx(3));
-        return result;
-    }
-
-
-    public static PersonneType.Gasel.Personne createPersonEbx(int index){
-        fr.cfdt.gasel.schema.v0.ebx.personne.ObjectFactory of = new fr.cfdt.gasel.schema.v0.ebx.personne.ObjectFactory();
-        PersonneType.Gasel.Personne person = new PersonneType.Gasel.Personne();
-        person.setId(index);
-        person.setNom(of.createPersonneTypeGaselPersonneNom("name"+String.valueOf(index)));
-        person.setPrenom(of.createPersonneTypeGaselPersonnePrenom("prenom"+String.valueOf(index)));
+    public static Personne createPersonEbx(int index){
+        Personne person = new Personne();
+        person.setId(Long.valueOf(index));
+        person.setNom("name"+index);
+        person.setPrenom("prenom"+index);
         return person;
     }
 
@@ -124,29 +88,19 @@ public class TestUtils {
 
     //===========================Structure================================
 
-    public static SelectStructureResponseType createSelectStructureResponse(String responseCode){
-        SelectStructureResponseType resp = new SelectStructureResponseType();
-        StructureType data = new StructureType();
-        StructureType.Gasel gasel = new StructureType.Gasel();
-        gasel.getStructure().addAll(createStructureListEbx());
-        data.setGasel(gasel);
-        resp.setData(data);
-        return resp;
-    }
 
-    public static List<StructureType.Gasel.Structure> createStructureListEbx(){
-        List<StructureType.Gasel.Structure> result = new ArrayList<>();
+    public static List<Structure> createStructureListEbx(){
+        List<Structure> result = new ArrayList<>();
         result.add(createStructureEbx(1));
         result.add(createStructureEbx(2));
         result.add(createStructureEbx(3));
         return result;
     }
 
-    public static StructureType.Gasel.Structure createStructureEbx(int index){
-        fr.cfdt.gasel.schema.v0.ebx.structure.ObjectFactory of = new fr.cfdt.gasel.schema.v0.ebx.structure.ObjectFactory();
-        StructureType.Gasel.Structure structure = new StructureType.Gasel.Structure();
-        structure.setAcronyme(of.createStructureTypeGaselStructureAcronyme("Acronyme"+String.valueOf(index)));
-        structure.setMatricule(of.createStructureTypeGaselStructureMatricule("matricule"+String.valueOf(index)));
+    public static Structure createStructureEbx(int index){
+        Structure structure = new Structure();
+        structure.setAcronyme("Acronyme"+index);
+        structure.setMatricule("matricule"+index);
         return structure;
     }
 
@@ -226,18 +180,17 @@ public class TestUtils {
 
     // ==================== Role ====================
 
-    public static RoleType.Parametres.Role createRole(int index){
-        ObjectFactory objectFactory = new ObjectFactory();
-        RoleType.Parametres.Role role = new RoleType.Parametres.Role();
+    public static Role createRole(int index){
+        Role role = new Role();
         role.setId(index);
-        role.setCode(objectFactory.createRoleTypeParametresRoleCode("code"+index));
-        role.setLibelle(objectFactory.createRoleTypeParametresRoleLibelle("libelle"+index));
-        role.setActif(objectFactory.createRoleTypeParametresRoleActif(true));
+        role.setCode("code"+index);
+        role.setLibelle("libelle"+index);
+        role.setActif(true);
         return role;
     }
 
-    public static  List<RoleType.Parametres.Role> createListRole(){
-        List<RoleType.Parametres.Role> result = new ArrayList<>();
+    public static  List<Role> createListRole(){
+        List<Role> result = new ArrayList<>();
         result.add(createRole(1));
         result.add(createRole(2));
         result.add(createRole(3));
@@ -263,19 +216,17 @@ public class TestUtils {
 
     // ============================ Responsablite instance =============================
 
-    public static  TypeResponsabiliteType.Parametres.TypeResponsabilite createTypeResponsabilte(int index){
-        TypeResponsabiliteType.Parametres.TypeResponsabilite result = new TypeResponsabiliteType.Parametres.TypeResponsabilite();
-        ObjectFactory of = new ObjectFactory();
+    public static TypeResponsabilite createTypeResponsabilte(int index){
+        TypeResponsabilite result = new TypeResponsabilite();
         result.setId(index);
-        result.setActif(of.createTypeResponsabiliteTypeParametresTypeResponsabiliteActif(true));
-        result.setCode(of.createTypeResponsabiliteTypeParametresTypeResponsabiliteCode("code"+index));
-        result.setLibelle(of.createTypeResponsabiliteTypeParametresTypeResponsabiliteLibelle("libelle"+index));
-        result.setType(of.createTypeResponsabiliteTypeParametresTypeResponsabiliteType("type"+index));
+        result.setCode("code"+index);
+        result.setLibelle("libelle"+index);
+        result.setType("type"+index);
         return result;
     }
 
-    public static  List<TypeResponsabiliteType.Parametres.TypeResponsabilite> createListTypeResponsabilte(){
-        List<TypeResponsabiliteType.Parametres.TypeResponsabilite> result = new ArrayList<>();
+    public static  List<TypeResponsabilite> createListTypeResponsabilte(){
+        List<TypeResponsabilite> result = new ArrayList<>();
         result.add(createTypeResponsabilte(1));
         result.add(createTypeResponsabilte(2));
         result.add(createTypeResponsabilte(3));
@@ -301,19 +252,17 @@ public class TestUtils {
 
     // ============================ Organisme instance =============================
 
-    public static TypeMandatType.Parametres.TypeMandat createTypeMandat(int index){
-        TypeMandatType.Parametres.TypeMandat result = new TypeMandatType.Parametres.TypeMandat();
-        ObjectFactory of = new ObjectFactory();
+    public static TypeMandat createTypeMandat(int index){
+        TypeMandat result = new TypeMandat();
         result.setId(index);
-        result.setActif(of.createTypeMandatTypeParametresTypeMandatActif(true));
-        result.setCode(of.createTypeResponsabiliteTypeParametresTypeResponsabiliteCode("code"+index));
-        result.setLibelle(of.createTypeResponsabiliteTypeParametresTypeResponsabiliteLibelle("libelle"+index));
-        result.setType(of.createTypeMandatTypeParametresTypeMandatType("type"+index));
+        result.setCode("code"+index);
+        result.setLibelle("libelle"+index);
+        result.setType("type"+index);
         return result;
     }
 
-    public static  List<TypeMandatType.Parametres.TypeMandat> createListTypeMandat(){
-        List<TypeMandatType.Parametres.TypeMandat> result = new ArrayList<>();
+    public static  List<TypeMandat> createListTypeMandat(){
+        List<TypeMandat> result = new ArrayList<>();
         result.add(createTypeMandat(1));
         result.add(createTypeMandat(2));
         result.add(createTypeMandat(3));

@@ -155,16 +155,16 @@
 			<!--<version>5.2.4</version>-->
 		<!--</dependency>-->
 
-		<dependency>
-			<groupId>fr.cfdt.gasel</groupId>
-			<artifactId>ebx-webservice-definition</artifactId>
-			<version>${mdm.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.cfdt.gasel</groupId>
-			<artifactId>ebx-webservice-api</artifactId>
-			<version>${mdm.version}</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>fr.cfdt.gasel</groupId>-->
+			<!--<artifactId>ebx-webservice-definition</artifactId>-->
+			<!--<version>${mdm.version}</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>fr.cfdt.gasel</groupId>-->
+			<!--<artifactId>ebx-webservice-api</artifactId>-->
+			<!--<version>${mdm.version}</version>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -330,6 +330,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
+					<forceJavacCompilerUse>true</forceJavacCompilerUse>
 					<release>11</release>
 				</configuration>
 			</plugin>

@@ -39,9 +39,6 @@ cron:
 
 group-ldap:
   client:
-    personEbxProxy: 'http://172.20.16.5:8888/ebx/parametres'
-    structureEbxProxy: 'http://172.20.16.5:8888/ebx/structure'
-    parameterEbxProxy: 'http://172.20.16.5:8888/ebx/parametres'
     ldapPort: 389
     ldapHostName: 172.20.16.4
     ldapBindPassword: esDAPsmbP

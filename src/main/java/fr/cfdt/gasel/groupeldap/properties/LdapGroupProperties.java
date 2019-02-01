@@ -13,12 +13,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class LdapGroupProperties {
 
     private String listUrl;
-    private String personEbxProxy;
-    private String structureEbxProxy;
-    private String parameterEbxProxy;
     private String ldapBaseDn;
     private int ldapPort;
     private String ldapHostName;
     private String ldapBindPassword;
     private String ldapBindDN;
+    private int delai;
 }

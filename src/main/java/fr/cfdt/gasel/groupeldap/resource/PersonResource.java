@@ -7,6 +7,7 @@ import fr.cfdt.gasel.groupeldap.dto.RequestDto;
 import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.RequestMapper;
 import fr.cfdt.gasel.groupeldap.model.Request;
+import fr.cfdt.gasel.groupeldap.model.Structure;
 import fr.cfdt.gasel.groupeldap.service.CsvWriterService;
 import fr.cfdt.gasel.groupeldap.service.GroupService;
 import fr.cfdt.gasel.groupeldap.service.PersonService;

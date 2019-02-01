@@ -68,7 +68,7 @@ public class PersonService {
             throw new TechnicalException(messagesProperties.getTechnicalExceptionInGetLdapUsersByNpas());
         }
         List<Personne> pageCont;
-        if(page != null && size != null){
+        if(page != null && size != null && tmp != null){
             pageCont = pagingUtil.getPage(tmp , page , size);
             result = new PageImpl<>(personMapper.listPersonneModelToDto(pageCont), PageRequest.of(page - 1, size), tmp.size());
         } else if(tmp != null){

@@ -22,7 +22,7 @@ public class LdapClient {
     @Autowired
     GaselLDAPService gaselLDAPService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PersonClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LdapClient.class);
 
     private static final int MAX_SIZE_PAGE = 1000;
 

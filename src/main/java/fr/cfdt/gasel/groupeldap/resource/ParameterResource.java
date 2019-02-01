@@ -5,7 +5,6 @@ import fr.cfdt.gasel.groupeldap.dto.ResponsabiliteInstanceDto;
 import fr.cfdt.gasel.groupeldap.dto.RoleDto;
 import fr.cfdt.gasel.groupeldap.dto.TypeStructureDto;
 import fr.cfdt.gasel.groupeldap.service.ParameterService;
-import fr.cfdt.gasel.service.ebx.parametres.v0.StandardException;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -45,16 +44,10 @@ public class ParameterResource {
     @ApiModelProperty("Recupérer la liste des type structure")
     public Resources<TypeStructureDto> getAllTypeStructure(){
         LOGGER.info("Start getAllTypeStructure ");
-        Resources<TypeStructureDto> hateoasList = null;
-        try {
-            List<TypeStructureDto> typeStructureDtos = parameterService.getAllStructureTypes();
-            Link link = linkTo(methodOn(this.getClass()).getAllTypeStructure()).withSelfRel();
-            hateoasList = new Resources<>(typeStructureDtos, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
-        }
+        List<TypeStructureDto> typeStructureDtos = parameterService.getAllStructureTypes();
+        Link link = linkTo(methodOn(this.getClass()).getAllTypeStructure()).withSelfRel();
         LOGGER.info("End getAllTypeStructure");
-        return hateoasList;
+        return new Resources<>(typeStructureDtos, link);
     }
 
     /**
@@ -68,16 +61,12 @@ public class ParameterResource {
         LOGGER.info("Start getAllDenominationByType ");
         Resources<RoleDto> hateoasList = null;
         List<RoleDto> result = null;
-        try {
-            List<RoleDto> tmp = parameterService.getAllRoles();
-            if(tmp != null && !tmp.isEmpty() && type != null){
-                result = tmp.stream().filter(r -> type.equalsIgnoreCase(splitRole(r.getCode()))).collect(Collectors.toList());
-            }
-            Link link = linkTo(methodOn(this.getClass()).getAllDenominationByType(type)).withSelfRel();
-            hateoasList = new Resources<>(result, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
+        List<RoleDto> tmp = parameterService.getAllRoles();
+        if(tmp != null && !tmp.isEmpty() && type != null){
+            result = tmp.stream().filter(r -> type.equalsIgnoreCase(splitRole(r.getCode()))).collect(Collectors.toList());
         }
+        Link link = linkTo(methodOn(this.getClass()).getAllDenominationByType(type)).withSelfRel();
+        hateoasList = new Resources<>(result, link);
         LOGGER.info("End getAllDenominationByType");
         return hateoasList;
     }
@@ -91,13 +80,9 @@ public class ParameterResource {
     public Resources<ResponsabiliteInstanceDto> getAllRespInstance(){
         LOGGER.info("Start getAllRespInstance ");
         Resources<ResponsabiliteInstanceDto> hateoasList = null;
-        try {
-            List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
-            Link link = linkTo(methodOn(this.getClass()).getAllRespInstance()).withSelfRel();
-            hateoasList = new Resources<>(responsabiliteInstanceDtos, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
-        }
+        List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
+        Link link = linkTo(methodOn(this.getClass()).getAllRespInstance()).withSelfRel();
+        hateoasList = new Resources<>(responsabiliteInstanceDtos, link);
         LOGGER.info("End getAllRespInstance");
         return hateoasList;
     }
@@ -111,13 +96,9 @@ public class ParameterResource {
     public Resources<OrganismeInstanceDto> getAllOrganismeInstance(){
         LOGGER.info("Start getAllOrganismeInstance ");
         Resources<OrganismeInstanceDto> hateoasList = null;
-        try {
-            List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
-            Link link = linkTo(methodOn(this.getClass()).getAllOrganismeInstance()).withSelfRel();
-            hateoasList = new Resources<>(organismeInstanceDtos, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
-        }
+        List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
+        Link link = linkTo(methodOn(this.getClass()).getAllOrganismeInstance()).withSelfRel();
+        hateoasList = new Resources<>(organismeInstanceDtos, link);
         LOGGER.info("End getAllOrganismeInstance");
         return hateoasList;
     }
@@ -132,15 +113,11 @@ public class ParameterResource {
     public Resources<TypeStructureDto> getTypeStructureByIds(@PathVariable String codes){
         LOGGER.info("Start getTypeStructureByIds ");
         Resources<TypeStructureDto> hateoasList = null;
-        try {
-            List<TypeStructureDto> typeStructureDtos = parameterService.getAllStructureTypes();
-            List<String> listIds = Arrays.asList(codes.split(","));
-            List<TypeStructureDto> tmp = typeStructureDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
-            Link link = linkTo(methodOn(this.getClass()).getTypeStructureByIds(codes)).withSelfRel();
-            hateoasList = new Resources<>(tmp, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
-        }
+        List<TypeStructureDto> typeStructureDtos = parameterService.getAllStructureTypes();
+        List<String> listIds = Arrays.asList(codes.split(","));
+        List<TypeStructureDto> tmp = typeStructureDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
+        Link link = linkTo(methodOn(this.getClass()).getTypeStructureByIds(codes)).withSelfRel();
+        hateoasList = new Resources<>(tmp, link);
         LOGGER.info("End getTypeStructureByIds");
         return hateoasList;
     }
@@ -156,17 +133,12 @@ public class ParameterResource {
         LOGGER.info("Start getAllDenominationByIds ");
         Resources<RoleDto> hateoasList = null;
         List<RoleDto> result = null;
-        List<String> listIds = Arrays.asList(ids.split(","));
-        try {
-            List<RoleDto> tmp = parameterService.getAllRoles();
-            if(tmp != null && !tmp.isEmpty() && type != null){
-                result = tmp.stream().filter(r -> type.equalsIgnoreCase(splitRole(r.getCode())) && ids.contains(r.getId().toString())).collect(Collectors.toList());
-            }
-            Link link = linkTo(methodOn(this.getClass()).getAllDenominationByIds(type , ids)).withSelfRel();
-            hateoasList = new Resources<>(result, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
+        List<RoleDto> tmp = parameterService.getAllRoles();
+        if(tmp != null && !tmp.isEmpty() && type != null){
+            result = tmp.stream().filter(r -> type.equalsIgnoreCase(splitRole(r.getCode())) && ids.contains(r.getId().toString())).collect(Collectors.toList());
         }
+        Link link = linkTo(methodOn(this.getClass()).getAllDenominationByIds(type , ids)).withSelfRel();
+        hateoasList = new Resources<>(result, link);
         LOGGER.info("End getAllDenominationByIds");
         return hateoasList;
     }
@@ -180,15 +152,11 @@ public class ParameterResource {
     public Resources<ResponsabiliteInstanceDto> getRespInstanceByIds(@PathVariable String ids){
         LOGGER.info("Start getRespInstanceByIds ");
         Resources<ResponsabiliteInstanceDto> hateoasList = null;
-        try {
-            List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
-            List<String> listIds = Arrays.asList(ids.split(","));
-            List<ResponsabiliteInstanceDto> tmp = responsabiliteInstanceDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
-            Link link = linkTo(methodOn(this.getClass()).getRespInstanceByIds(ids)).withSelfRel();
-            hateoasList = new Resources<>(tmp, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
-        }
+        List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
+        List<String> listIds = Arrays.asList(ids.split(","));
+        List<ResponsabiliteInstanceDto> tmp = responsabiliteInstanceDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
+        Link link = linkTo(methodOn(this.getClass()).getRespInstanceByIds(ids)).withSelfRel();
+        hateoasList = new Resources<>(tmp, link);
         LOGGER.info("End getRespInstanceByIds");
         return hateoasList;
     }
@@ -202,15 +170,11 @@ public class ParameterResource {
     public Resources<OrganismeInstanceDto> getOrganismeInstanceByIds(@PathVariable String ids){
         LOGGER.info("Start getOrganismeInstanceByIds ");
         Resources<OrganismeInstanceDto> hateoasList = null;
-        try {
-            List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
-            List<String> listIds = Arrays.asList(ids.split(","));
-            List<OrganismeInstanceDto> tmp = organismeInstanceDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
-            Link link = linkTo(methodOn(this.getClass()).getOrganismeInstanceByIds(ids)).withSelfRel();
-            hateoasList = new Resources<>(tmp, link);
-        } catch (StandardException e) {
-            e.printStackTrace();
-        }
+        List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
+        List<String> listIds = Arrays.asList(ids.split(","));
+        List<OrganismeInstanceDto> tmp = organismeInstanceDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
+        Link link = linkTo(methodOn(this.getClass()).getOrganismeInstanceByIds(ids)).withSelfRel();
+        hateoasList = new Resources<>(tmp, link);
         LOGGER.info("End getOrganismeInstanceByIds");
         return hateoasList;
     }
