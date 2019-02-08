@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TypeStructureDto implements Serializable {
+public class TypeStructureDto {
     Integer id;
     String code;
     String libelle;

@@ -50,20 +50,4 @@ public class EbxDatasource {
             @Qualifier("secondEntityManagerFactory") EntityManagerFactory secondEntityManagerFactory) {
         return new JpaTransactionManager(secondEntityManagerFactory);
     }
-
-    @Bean(name="structureEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean structureEntityManagerFactory(
-            EntityManagerFactoryBuilder builder) {
-        return builder
-                .dataSource(secondDataSource())
-                .packages(Structure.class)
-                .persistenceUnit("structures")
-                .build();
-    }
-
-    @Bean(name = "structureEntityManagerFactory")
-    public PlatformTransactionManager structureTransactionManager(
-            @Qualifier("structureEntityManagerFactory") EntityManagerFactory structureEntityManagerFactory) {
-        return new JpaTransactionManager(structureEntityManagerFactory);
-    }
 }

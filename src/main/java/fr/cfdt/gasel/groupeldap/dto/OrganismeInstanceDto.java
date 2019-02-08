@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrganismeInstanceDto implements Serializable {
+public class OrganismeInstanceDto {
     private Integer id;
     private String code;
     private String libelle;

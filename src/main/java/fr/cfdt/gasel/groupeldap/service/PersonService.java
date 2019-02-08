@@ -51,30 +51,32 @@ public class PersonService {
 
 
     public Page<PersonneDto> getMembers(String query , Integer page , Integer size) throws TechnicalException{
-        Page<PersonneDto> result;
+        Page<PersonneDto> result = null;
         List<Personne> tmp = null;
         LOGGER.info("Start service getMembers ");
-        try{
-            List<Personne> personEbx = personRepositoryImpl.personsByQuery(query);
-            //recuperer la liste des personnes from LDAP pour faire l'intersection
-            List<String> npas = personEbx.stream().map(Personne::getNpa).collect(Collectors.toList());
-            List<String> npasLdap = ldapClient.getLdapUsersByNpa(npas);
-            //faire l'intersection
-            if(npasLdap != null && !npasLdap.isEmpty()){
-                tmp = personEbx.stream().filter(p -> npasLdap.contains(p.getNpa())).collect(Collectors.toList());
+        if(query != null && !query.isEmpty()) {
+            try {
+                List<Personne> personEbx = personRepositoryImpl.personsByQuery(query);
+                //recuperer la liste des personnes from LDAP pour faire l'intersection
+                List<String> npas = personEbx.stream().map(Personne::getNpa).collect(Collectors.toList());
+                List<String> npasLdap = ldapClient.getLdapUsersByNpa(npas);
+                //faire l'intersection
+                if (npasLdap != null && !npasLdap.isEmpty()) {
+                    tmp = personEbx.stream().filter(p -> npasLdap.contains(p.getNpa())).collect(Collectors.toList());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Call to WS Get getLdapUsersByNpa failed, reason : {}", e.getMessage());
+                throw new TechnicalException(messagesProperties.getTechnicalExceptionInGetLdapUsersByNpas());
             }
-        } catch (Exception e){
-            LOGGER.error("Call to WS Get getLdapUsersByNpa failed, reason : {}", e.getMessage());
-            throw new TechnicalException(messagesProperties.getTechnicalExceptionInGetLdapUsersByNpas());
-        }
-        List<Personne> pageCont;
-        if(page != null && size != null && tmp != null){
-            pageCont = pagingUtil.getPage(tmp , page , size);
-            result = new PageImpl<>(personMapper.listPersonneModelToDto(pageCont), PageRequest.of(page - 1, size), tmp.size());
-        } else if(tmp != null){
-            result = new PageImpl<>(personMapper.listPersonneModelToDto(tmp));
-        } else {
-            result = new PageImpl<>(personMapper.listPersonneModelToDto(new ArrayList<>()));
+            List<Personne> pageCont;
+            if (page != null && size != null && tmp != null) {
+                pageCont = pagingUtil.getPage(tmp, page, size);
+                result = new PageImpl<>(personMapper.listPersonneModelToDto(pageCont), PageRequest.of(page - 1, size), tmp.size());
+            } else if (tmp != null) {
+                result = new PageImpl<>(personMapper.listPersonneModelToDto(tmp));
+            } else {
+                result = new PageImpl<>(personMapper.listPersonneModelToDto(new ArrayList<>()));
+            }
         }
         LOGGER.info("End service getMembers ");
         return result;

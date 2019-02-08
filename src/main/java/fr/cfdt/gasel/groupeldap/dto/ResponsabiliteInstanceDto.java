@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ResponsabiliteInstanceDto implements Serializable {
+public class ResponsabiliteInstanceDto {
     private Integer id;
     private String code;
     private String libelle;

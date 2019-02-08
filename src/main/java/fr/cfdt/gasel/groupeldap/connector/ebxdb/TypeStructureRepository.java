@@ -11,7 +11,7 @@ import java.util.List;
  * Author SZaoui
  */
 @Repository
-public interface TypeStructureRepository extends JpaRepository<TypeStructure, Long> {
+public interface TypeStructureRepository extends JpaRepository<TypeStructure, String> {
 
     @Cacheable(value = "typesStructure")
     List<TypeStructure> findAll();

@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -120,9 +121,10 @@ public class GroupService {
      */
     public List<String> getLdapMembers(String request) throws TechnicalException {
         List<String> result;
-        List<PersonneDto> listMembers = personService.getMembers(request , null , null).getContent();
-        result = listMembers.stream().map(p -> "uid="+p.getNpa()+",ou=utilisateurs,dc=cfdt,dc=fr").collect(Collectors.toList());
-        if(result == null || result.size() <= 0){
+        Page<PersonneDto> listMembers = personService.getMembers(request, null, null);
+        List<PersonneDto> tmp = listMembers != null ? listMembers.getContent() : new ArrayList<>();
+        result = tmp.stream().map(p -> "uid=" + p.getNpa() + ",ou=utilisateurs,dc=cfdt,dc=fr").collect(Collectors.toList());
+        if (result == null || result.size() <= 0) {
             result.add("uid=required_member,ou=utilisateurs,dc=cfdt,dc=fr");
         }
         return result;
@@ -144,9 +146,9 @@ public class GroupService {
             if(group.getRespInstances() != null && !group.getRespInstances().isEmpty()){
                 query.append(" and resp.ADHERENT_RESPONSABILITE_TYPERESPONSABILITE_ IN  (");
                 query.append(group.getRespInstances());
-                query.append(") and (resp.ADHERENT_RESPONSABILITE_DATEFIN is null or resp.ADHERENT_RESPONSABILITE_DATEFIN >= ");
+                query.append(") and (resp.ADHERENT_RESPONSABILITE_DATEFIN is null or resp.ADHERENT_RESPONSABILITE_DATEFIN >= '");
                 query.append(DateUtils.dateToString(diff,DateUtils.DATE_PATTERN_STRING));
-                query.append(")");
+                query.append("')");
             }
             if(group.getDenominationsResp() != null && !group.getDenominationsResp().isEmpty()){
                 query.append(" and resp.adherent_responsabilite_aPourDenomination_ IN  (");
@@ -159,8 +161,8 @@ public class GroupService {
                 query.append(")");
             }
             if(group.getTypesStructure() != null && !group.getTypesStructure().isEmpty()){
-                query.append(" and struct.TYPE_ IN  (");
-                query.append(group.getTypesStructure());
+                query.append(" and struct.TYPE_ IN (");
+                query.append(inPattern(group.getTypesStructure()));
                 query.append(")");
             }
         } else if((group.getOrganismeInstances() != null && !group.getOrganismeInstances().isEmpty()) || (group.getDenominationsMandat() != null && !group.getDenominationsMandat().isEmpty())){
@@ -170,31 +172,33 @@ public class GroupService {
             if(group.getOrganismeInstances() != null && !group.getOrganismeInstances().isEmpty()) {
                 query.append(" and mandat.PERSONNESUIVIE_MANDATS_TYPEMANDAT_ IN  (");
                 query.append(group.getOrganismeInstances());
-                query.append(") and (mandat.PERSONNESUIVIE_MANDATS_DATEFINMANDAT is null or mandat.PERSONNESUIVIE_MANDATS_DATEFINMANDAT >= ");
+                query.append(") and (mandat.PERSONNESUIVIE_MANDATS_DATEFINMANDAT is null or mandat.PERSONNESUIVIE_MANDATS_DATEFINMANDAT >= '");
                 query.append(DateUtils.dateToString(diff, DateUtils.DATE_PATTERN_STRING));
-                query.append(")");
+                query.append("')");
             }
             if(group.getDenominationsMandat() != null && !group.getDenominationsMandat().isEmpty()){
                 query.append(" and mandat.personneSuivie_mandats_aPourDenomination_ IN  (");
-                query.append(group.getDenominationsResp());
+                query.append(group.getDenominationsMandat());
                 query.append(")");
             }
             if(group.getStructures() != null && !group.getStructures().isEmpty()){
-                query.append(" and mandat.mandat.personneSuivie_mandats_structureAyantAttribue_ IN  (");
+                query.append(" and mandat.personneSuivie_mandats_structureAyantAttribue_ IN  (");
                 query.append(group.getStructures());
                 query.append(")");
             }
             if(group.getTypesStructure() != null && !group.getTypesStructure().isEmpty()){
                 query.append(" and struct.TYPE_ IN  (");
-                query.append(group.getTypesStructure());
+                query.append(inPattern(group.getTypesStructure()));
                 query.append(")");
             }
         }
-        else {
+        else if(group.getStructures() != null && !group.getStructures().isEmpty()){
             query.append(" LEFT JOIN EBX_REP_STRUCTURE sect on pers.SECTION_= sect.ID ");
             query.append(" LEFT JOIN EBX_REP_STRUCTURE synd on pers.SYNDICAT_= synd.ID");
             query.append(basicCondition());
             query.append(perimetrePersonneFromBaseRepliquee(group.getTypesStructure() , group.getStructures()));
+        } else {
+            query = new StringBuilder();
         }
         return query.toString();
     }
@@ -385,5 +389,15 @@ public class GroupService {
             }
         }
         return result.toString();
+    }
+
+    private String inPattern(String input){
+        String result = null;
+        if(input != null && !input.isEmpty()){
+            String tmp[] = input.split(",");
+            StringBuilder stringBuilder = new StringBuilder();
+            result = Arrays.stream(tmp).map(s -> "'"+s+"'").collect(Collectors.joining(","));
+        }
+        return result;
     }
 }
