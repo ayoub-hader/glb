@@ -161,7 +161,7 @@ public class ParameterResource {
         return hateoasList;
     }
 
-    @GetMapping("/listeResponsabiliteInstance/{codlib}")
+    @GetMapping("/responsabiliteInstance/{codlib}")
     public Resources<ResponsabiliteInstanceDto> getRespInstanceBycodlib(@PathVariable String codlib){
         LOGGER.info("Start getRespInstanceBycodlib ");
         Resources<ResponsabiliteInstanceDto> hateoasList = null;
@@ -191,7 +191,7 @@ public class ParameterResource {
         return hateoasList;
     }
 
-    @GetMapping("/listeOrganismeInstance/{codlib}")
+    @GetMapping("/organismeInstance/{codlib}")
     public Resources<OrganismeInstanceDto> getOrganismeInstanceBycodlib(@PathVariable String codlib){
         LOGGER.info("Start getOrganismeInstanceBycodlib ");
         Resources<OrganismeInstanceDto> hateoasList = null;
