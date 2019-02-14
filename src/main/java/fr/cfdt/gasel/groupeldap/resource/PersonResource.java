@@ -57,17 +57,6 @@ public class PersonResource {
     @Autowired
     PagingUtil pagingUtil;
 
-//    @GetMapping("/requests")
-//    @ApiOperation(value = "Récupérer la liste des requettes")
-//    public List<RequestDto> getAllRequests(){
-//        LOGGER.info("Start Get All requests List ");
-//
-//        List<Request> reqTmp = requestRepository.findAll();
-//        List<RequestDto> req = requestMapper.mapListRequestModeltodto(reqTmp);
-//        LOGGER.info("End Get All persons List ");
-//        return req;
-//    }
-
     @GetMapping("/members/{query}/{page}/{size}")
     @ApiOperation(value = "Récupérer la liste des membres en exécutant la requête")
     public Page<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size) throws TechnicalException {
@@ -77,36 +66,16 @@ public class PersonResource {
         return members;
     }
 
-//    @GetMapping("/Export/{query}")
-//    @ApiOperation(value = "Exporter la liste des membres")
-//    public byte[] exportMembers(@PathVariable String query , HttpServletResponse response) throws TechnicalException {
-//        LOGGER.info("Start exportMembers");
-//        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
-//        List<String[]> lines = new ArrayList<>();
-//        String[] header = {"Syndicat" , "Nom" , "Npa"};
-//        lines.add(header);
-//        for(PersonneDto member : members){
-//            lines.add(new String[]{member.getSyndicat() != null ? member.getSyndicat().getMatricule() : "", member.getNom() + " " + member.getPrenom(), member.getNpa()});
-//        }
-//        byte[] result = null;
-//        try {
-//            result = csvWriterService.generateCsv(lines , response);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        LOGGER.info("End exportMembers ");
-//        return result;
-//    }
-//
-//    @GetMapping("/Rechercher/{query}/{criteria}/{page}/{size}")
-//    @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
-//    public Page<PersonneDto> rechercherMembers(@PathVariable String query ,@PathVariable String criteria, @PathVariable int page,@PathVariable int size) throws TechnicalException {
-//        LOGGER.info("Start rechercherMembers");
-//        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
-//        List<PersonneDto> tmp = members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
-//        List<PersonneDto> pageContent = pagingUtil.getPage(tmp, page, size);
-//        LOGGER.info("End rechercherMembers ");
-//        return new PageImpl<>(pageContent, PageRequest.of(page-1, size) , tmp.size());
-//    }
+
+    @GetMapping("/Rechercher/{query}/{criteria}/{page}/{size}")
+    @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
+    public Page<PersonneDto> rechercherMembers(@PathVariable String query ,@PathVariable String criteria, @PathVariable int page,@PathVariable int size) throws TechnicalException {
+        LOGGER.info("Start rechercherMembers");
+        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
+        List<PersonneDto> tmp = members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
+        List<PersonneDto> pageContent = pagingUtil.getPage(tmp, page, size);
+        LOGGER.info("End rechercherMembers ");
+        return new PageImpl<>(pageContent, PageRequest.of(page-1, size) , tmp.size());
+    }
 
 }

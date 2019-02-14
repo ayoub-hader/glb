@@ -2,7 +2,9 @@ package fr.cfdt.gasel.groupeldap.batch;
 
 import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.model.Group;
+import fr.cfdt.gasel.groupeldap.service.CacheService;
 import fr.cfdt.gasel.groupeldap.service.GroupService;
+import fr.cfdt.gasel.ldap.Exception.UnableToFoundGaselLdapUserWithTheGivenInformationsException;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
 import fr.cfdt.gasel.ldap.dto.GaselGroupeLDAPEntry;
 import org.slf4j.Logger;
@@ -31,6 +33,9 @@ public class UpdateLdapBatch implements Tasklet {
     GroupService groupService;
 
     @Autowired
+    CacheService cacheService;
+
+    @Autowired
     GaselLDAPService gaselLDAPService;
 
     @PersistenceContext(unitName = "firstEntityManagerFactory")
@@ -45,6 +50,7 @@ public class UpdateLdapBatch implements Tasklet {
     @Transactional
     public void updateLdap() throws TechnicalException{
         LOGGER.info("start batch update group members Ldap");
+        cacheService.evictCacheByValue("membersByQuery");
         // recuperer la liste des groupes depuis la base
         //test commit
         LOGGER.info("Batch update group members Ldap : recuperer la liste des groupes depuis la base");
@@ -52,12 +58,17 @@ public class UpdateLdapBatch implements Tasklet {
         //commencer le traitement pour chaque groupe
         for(Group group : groups){
             if(group.getRequest() != null){
+                GaselGroupeLDAPEntry groupLdap = null;
                 // executer la requete pour recuperer la liste des membre depuis la base repliquee
                 LOGGER.info("Batch update group members Ldap : executer la requete pour le groupe ID = {}", group.getIdGroup());
                 List<String> baseMembers = groupService.getLdapMembers(group.getRequest().getRequest());
                 LOGGER.info("Batch update group members Ldap : recuperer la liste des membres depuis LDAP pour le groupe ID = {}", group.getIdGroup());
-                GaselGroupeLDAPEntry groupLdap = gaselLDAPService.getGroupeByCn(String.valueOf(group.getIdGroup()));
-                if(!baseMembers.equals(groupLdap.getMember())){
+                try {
+                    groupLdap = gaselLDAPService.getGroupeByCn(String.valueOf(group.getIdGroup()));
+                } catch (UnableToFoundGaselLdapUserWithTheGivenInformationsException e){
+                    LOGGER.info(e.getMessage());
+                }
+                if(groupLdap != null && !baseMembers.equals(groupLdap.getMember())){
                     if(baseMembers == null || baseMembers.size() <= 0){
                         baseMembers = new ArrayList<>();
                         baseMembers.add("");
@@ -66,11 +77,12 @@ public class UpdateLdapBatch implements Tasklet {
                     //mise a jour du nombre des membre dans la table groupe ldap
                     if(resultBatch){
                         entityManager.joinTransaction();
-                        entityManager.createNativeQuery("UPDATE ldap_group SET members_number = "+groupLdap.getMember().size()+" WHERE id_ldap_group = '"+group.getIdGroup()+"'", Group.class).executeUpdate();
+                        entityManager.createNativeQuery("UPDATE ldap_group SET NOMBRE_MEMBRES = "+groupLdap.getMember().size()+" WHERE id_ldap_group = '"+group.getIdGroup()+"'", Group.class).executeUpdate();
                     }
                 }
             }
         }
         LOGGER.info("end batch update group members Ldap");
     }
+
 }
