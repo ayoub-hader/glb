@@ -105,18 +105,18 @@ public class ParameterResource {
 
     /**
      *
-     * @param codes
+     * @param ids
      * @return
      */
-    @GetMapping("/typeStructure/{ids}")
+    @GetMapping("/listeTypeStructure/{ids}")
     @ApiModelProperty("Recupérer type structure par codes")
-    public Resources<TypeStructureDto> getTypeStructureByIds(@PathVariable String codes){
+    public Resources<TypeStructureDto> getTypeStructureByIds(@PathVariable String ids){
         LOGGER.info("Start getTypeStructureByIds ");
         Resources<TypeStructureDto> hateoasList = null;
         List<TypeStructureDto> typeStructureDtos = parameterService.getAllStructureTypes();
-        List<String> listIds = Arrays.asList(codes.split(","));
-        List<TypeStructureDto> tmp = typeStructureDtos.stream().filter(t -> listIds.contains(t.getId().toString())).collect(Collectors.toList());
-        Link link = linkTo(methodOn(this.getClass()).getTypeStructureByIds(codes)).withSelfRel();
+        List<String> listIds = Arrays.asList(ids.split(","));
+        List<TypeStructureDto> tmp = typeStructureDtos.stream().filter(t -> listIds.contains(t.getCode())).collect(Collectors.toList());
+        Link link = linkTo(methodOn(this.getClass()).getTypeStructureByIds(ids)).withSelfRel();
         hateoasList = new Resources<>(tmp, link);
         LOGGER.info("End getTypeStructureByIds");
         return hateoasList;
@@ -161,6 +161,18 @@ public class ParameterResource {
         return hateoasList;
     }
 
+    @GetMapping("/listeResponsabiliteInstance/{codlib}")
+    public Resources<ResponsabiliteInstanceDto> getRespInstanceBycodlib(@PathVariable String codlib){
+        LOGGER.info("Start getRespInstanceBycodlib ");
+        Resources<ResponsabiliteInstanceDto> hateoasList = null;
+        List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
+        List<ResponsabiliteInstanceDto> tmp = responsabiliteInstanceDtos.stream().filter(t -> t.getCode().contains(codlib) || t.getLibelle().contains(codlib)).collect(Collectors.toList());
+        Link link = linkTo(methodOn(this.getClass()).getRespInstanceBycodlib(codlib)).withSelfRel();
+        hateoasList = new Resources<>(tmp, link);
+        LOGGER.info("End getRespInstanceBycodlib");
+        return hateoasList;
+    }
+
     /**
      *
      * @return
@@ -176,6 +188,18 @@ public class ParameterResource {
         Link link = linkTo(methodOn(this.getClass()).getOrganismeInstanceByIds(ids)).withSelfRel();
         hateoasList = new Resources<>(tmp, link);
         LOGGER.info("End getOrganismeInstanceByIds");
+        return hateoasList;
+    }
+
+    @GetMapping("/listeOrganismeInstance/{codlib}")
+    public Resources<OrganismeInstanceDto> getOrganismeInstanceBycodlib(@PathVariable String codlib){
+        LOGGER.info("Start getOrganismeInstanceBycodlib ");
+        Resources<OrganismeInstanceDto> hateoasList = null;
+        List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
+        List<OrganismeInstanceDto> tmp = organismeInstanceDtos.stream().filter(t -> t.getCode().contains(codlib) || t.getLibelle().contains(codlib)).collect(Collectors.toList());
+        Link link = linkTo(methodOn(this.getClass()).getOrganismeInstanceBycodlib(codlib)).withSelfRel();
+        hateoasList = new Resources<>(tmp, link);
+        LOGGER.info("End getOrganismeInstanceBycodlib");
         return hateoasList;
     }
 

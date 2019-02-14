@@ -29,16 +29,21 @@ public class StructureService {
     @Autowired
     PagingUtil pagingUtil;
 
-    public Page<StructureDto> getStructuresByType(String  type , Integer page , Integer size) {
-        LOGGER.info("Start service getStructuresByType ");
-        List<Structure> structuresEbx = structureRepository.findByType(type);
+    public Page<StructureDto> getStructuresByTypeAndMatricule(String  type, String matricule, Integer page , Integer size) {
+        LOGGER.info("Start service getStructuresByTypeAndMatricule ");
+        List<Structure> structuresEbx;
+        if(matricule == null){
+            structuresEbx = structureRepository.findByType(type);
+        } else {
+            structuresEbx = structureRepository.findByTypeAndMatriculeContains(type, matricule);
+        }
         List<Structure> pageContent;
         if(page != null && size != null){
             pageContent = pagingUtil.getPage(structuresEbx , page , size);
         } else {
             pageContent = structuresEbx;
         }
-        LOGGER.info("End service getStructuresByType ");
+        LOGGER.info("End service getStructuresByTypeAndMatricule ");
         return new PageImpl<>(structureMapper.listStructureModelToDto(pageContent), PageRequest.of(page-1, size) , structuresEbx.size());
     }
 

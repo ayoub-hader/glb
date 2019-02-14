@@ -31,7 +31,7 @@ public class StructureResource {
     @ApiOperation(value = "Récupérer la liste des structure par type")
     public Page<StructureDto> getStructures(@PathVariable String type , @PathVariable int page , @PathVariable int size) {
         LOGGER.info("Start Get getStructures ");
-        Page<StructureDto> structures = structureService.getStructuresByType(type , page , size);
+        Page<StructureDto> structures = structureService.getStructuresByTypeAndMatricule(type, null , page , size);
         LOGGER.info("End Get getStructures ");
         return structures;
     }
@@ -43,6 +43,14 @@ public class StructureResource {
         List<String> listIds = Arrays.asList(ids.split(","));
         List<StructureDto> structures = structureService.getStructuresByIds(listIds);
         LOGGER.info("End Get getStructuresbyIds ");
+        return structures;
+    }
+
+    @GetMapping("/{type}/{matricule}/{page}/{size}")
+    public Page<StructureDto> getStructuresByMatricule(@PathVariable String type, @PathVariable String matricule , @PathVariable int page , @PathVariable int size) {
+        LOGGER.info("Start Get getStructures ");
+        Page<StructureDto> structures = structureService.getStructuresByTypeAndMatricule(type , matricule , page , size);
+        LOGGER.info("End Get getStructures ");
         return structures;
     }
 }
