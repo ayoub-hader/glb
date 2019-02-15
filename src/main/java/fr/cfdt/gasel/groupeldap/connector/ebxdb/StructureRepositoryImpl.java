@@ -1,11 +1,9 @@
 package fr.cfdt.gasel.groupeldap.connector.ebxdb;
 
-import fr.cfdt.gasel.groupeldap.model.Personne;
 import fr.cfdt.gasel.groupeldap.model.Structure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 

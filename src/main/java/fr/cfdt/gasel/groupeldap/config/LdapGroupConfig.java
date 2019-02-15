@@ -3,7 +3,6 @@ package fr.cfdt.gasel.groupeldap.config;
 import fr.cfdt.gasel.groupeldap.properties.LdapGroupProperties;
 import fr.cfdt.gasel.ldap.GaselLDAPService;
 import lombok.RequiredArgsConstructor;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -33,12 +32,5 @@ public class LdapGroupConfig {
         ldapBean.setHostName(ldapGroupProperties.getLdapHostName());
         ldapBean.setPort(ldapGroupProperties.getLdapPort());
         return ldapBean;
-    }
-
-    private <T> T buildProxy(String url, Class<T> clazz) {
-        JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
-        jaxWsProxyFactoryBean.setServiceClass(clazz);
-        jaxWsProxyFactoryBean.setAddress(url);
-        return (T) jaxWsProxyFactoryBean.create();
     }
 }

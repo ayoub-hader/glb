@@ -1,7 +1,6 @@
 package fr.cfdt.gasel.groupeldap.config;
 
 import fr.cfdt.gasel.groupeldap.model.Personne;
-import fr.cfdt.gasel.groupeldap.model.Structure;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;

@@ -22,7 +22,6 @@ public class CsvWriterService {
         //writer
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Writer writer = new OutputStreamWriter(outputStream, "ISO-8859-15");
-//        Writer writer = new FileWriter("C:/Gasel/test.csv");
         response.setHeader("Content-Disposition", "attachment; filename=liste_membres.csv");
         // serialisation avec opencsv
         CSVWriter csvWriter = new CSVWriter(writer, DELIMITER, QUOTE, ESCAPE_CHAR, LINE_END);

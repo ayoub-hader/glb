@@ -69,8 +69,6 @@ public class GroupService {
     public void deleteGroup(List<Long> groupIds) {
         groupIds.forEach(groupId -> {
             //recuperer l'id de la requette
-            Optional<Group> group = groupRepository.findById(groupId);
-            Long idRequest = group.isPresent() && group.get().getRequest() != null ? group.get().getRequest().getIdRequest() : null;
             //delete group
             // supprimer le groupe ldap
             boolean resultLdap = gaselLDAPService.deleteLdapGroup(groupId.toString());
@@ -388,14 +386,13 @@ public class GroupService {
                 i = i + MAX_SIZE_IN;
             }
         }
-        return result.toString();
+        return result != null ? result.toString() : null;
     }
 
     private String inPattern(String input){
         String result = null;
         if(input != null && !input.isEmpty()){
-            String tmp[] = input.split(",");
-            StringBuilder stringBuilder = new StringBuilder();
+            String[] tmp = input.split(",");
             result = Arrays.stream(tmp).map(s -> "'"+s+"'").collect(Collectors.joining(","));
         }
         return result;

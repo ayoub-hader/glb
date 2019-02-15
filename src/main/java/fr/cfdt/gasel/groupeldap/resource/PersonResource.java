@@ -3,11 +3,8 @@ package fr.cfdt.gasel.groupeldap.resource;
 
 import fr.cfdt.gasel.groupeldap.connector.groupdb.RequestRepository;
 import fr.cfdt.gasel.groupeldap.dto.PersonneDto;
-import fr.cfdt.gasel.groupeldap.dto.RequestDto;
 import fr.cfdt.gasel.groupeldap.exception.TechnicalException;
 import fr.cfdt.gasel.groupeldap.mapper.RequestMapper;
-import fr.cfdt.gasel.groupeldap.model.Request;
-import fr.cfdt.gasel.groupeldap.model.Structure;
 import fr.cfdt.gasel.groupeldap.service.CsvWriterService;
 import fr.cfdt.gasel.groupeldap.service.GroupService;
 import fr.cfdt.gasel.groupeldap.service.PersonService;
@@ -22,9 +19,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

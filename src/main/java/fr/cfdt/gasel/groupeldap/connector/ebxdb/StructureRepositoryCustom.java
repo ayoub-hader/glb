@@ -1,8 +1,6 @@
 package fr.cfdt.gasel.groupeldap.connector.ebxdb;
 
-import fr.cfdt.gasel.groupeldap.model.Personne;
 import fr.cfdt.gasel.groupeldap.model.Structure;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
