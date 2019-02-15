@@ -35,7 +35,7 @@ public class StructureService {
         if(matricule == null){
             structuresEbx = structureRepository.findByType(type);
         } else {
-            structuresEbx = structureRepository.findByTypeAndMatriculeContains(type, matricule);
+            structuresEbx = structureRepository.findByTypeAndMatriculeContainsOrMatriculeContains(type, matricule.toUpperCase() , matricule.toLowerCase());
         }
         List<Structure> pageContent;
         if(page != null && size != null){

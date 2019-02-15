@@ -18,7 +18,7 @@ public interface StructureRepository extends JpaRepository<Structure , Long> {
     @Cacheable(value="structuresByType")
     List<Structure> findByType(String type);
 
-    List<Structure> findByTypeAndMatriculeContains(String type , String matricule);
+    List<Structure> findByTypeAndMatriculeContainsOrMatriculeContains(String type , String matriculeUpperCase , String matriculeLowerCase);
 
     @Query(value="SELECT * FROM EBX_REP_STRUCTURE WHERE ID IN ?1", nativeQuery = true)
     List<Structure> findStructuresByIds(@Param("ids") List<String> ids);

@@ -134,8 +134,9 @@ public class ParameterResource {
         Resources<RoleDto> hateoasList = null;
         List<RoleDto> result = null;
         List<RoleDto> tmp = parameterService.getAllRoles();
+        List<String> listIds = Arrays.asList(ids.split(","));
         if(tmp != null && !tmp.isEmpty() && type != null){
-            result = tmp.stream().filter(r -> type.equalsIgnoreCase(splitRole(r.getCode())) && ids.contains(r.getId().toString())).collect(Collectors.toList());
+            result = tmp.stream().filter(r -> type.equalsIgnoreCase(splitRole(r.getCode())) && listIds.contains(r.getId().toString())).collect(Collectors.toList());
         }
         Link link = linkTo(methodOn(this.getClass()).getAllDenominationByIds(type , ids)).withSelfRel();
         hateoasList = new Resources<>(result, link);
@@ -165,10 +166,12 @@ public class ParameterResource {
     public Resources<ResponsabiliteInstanceDto> getRespInstanceBycodlib(@PathVariable String codlib){
         LOGGER.info("Start getRespInstanceBycodlib ");
         Resources<ResponsabiliteInstanceDto> hateoasList = null;
-        List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
-        List<ResponsabiliteInstanceDto> tmp = responsabiliteInstanceDtos.stream().filter(t -> t.getCode().contains(codlib) || t.getLibelle().contains(codlib)).collect(Collectors.toList());
-        Link link = linkTo(methodOn(this.getClass()).getRespInstanceBycodlib(codlib)).withSelfRel();
-        hateoasList = new Resources<>(tmp, link);
+        if(codlib != null){
+            List<ResponsabiliteInstanceDto> responsabiliteInstanceDtos = parameterService.getAllResponsabiliteInstance();
+            List<ResponsabiliteInstanceDto> tmp = responsabiliteInstanceDtos.stream().filter(t -> t.getCode().toLowerCase().contains(codlib.toLowerCase()) || t.getLibelle().toLowerCase().contains(codlib.toLowerCase())).collect(Collectors.toList());
+            Link link = linkTo(methodOn(this.getClass()).getRespInstanceBycodlib(codlib)).withSelfRel();
+            hateoasList = new Resources<>(tmp, link);
+        }
         LOGGER.info("End getRespInstanceBycodlib");
         return hateoasList;
     }
@@ -195,10 +198,12 @@ public class ParameterResource {
     public Resources<OrganismeInstanceDto> getOrganismeInstanceBycodlib(@PathVariable String codlib){
         LOGGER.info("Start getOrganismeInstanceBycodlib ");
         Resources<OrganismeInstanceDto> hateoasList = null;
-        List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
-        List<OrganismeInstanceDto> tmp = organismeInstanceDtos.stream().filter(t -> t.getCode().contains(codlib) || t.getLibelle().contains(codlib)).collect(Collectors.toList());
-        Link link = linkTo(methodOn(this.getClass()).getOrganismeInstanceBycodlib(codlib)).withSelfRel();
-        hateoasList = new Resources<>(tmp, link);
+        if(codlib != null){
+            List<OrganismeInstanceDto> organismeInstanceDtos = parameterService.getAllOrganismeInstance();
+            List<OrganismeInstanceDto> tmp = organismeInstanceDtos.stream().filter(t -> t.getCode().toLowerCase().contains(codlib.toLowerCase()) || t.getLibelle().toLowerCase().contains(codlib.toLowerCase())).collect(Collectors.toList());
+            Link link = linkTo(methodOn(this.getClass()).getOrganismeInstanceBycodlib(codlib)).withSelfRel();
+            hateoasList = new Resources<>(tmp, link);
+        }
         LOGGER.info("End getOrganismeInstanceBycodlib");
         return hateoasList;
     }
