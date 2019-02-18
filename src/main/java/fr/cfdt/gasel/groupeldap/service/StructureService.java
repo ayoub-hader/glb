@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -29,13 +31,16 @@ public class StructureService {
     @Autowired
     PagingUtil pagingUtil;
 
-    public Page<StructureDto> getStructuresByTypeAndMatricule(String  type, String matricule, Integer page , Integer size) {
+    public Page<StructureDto> getStructuresByTypeAndMatricule(String  type, String matricule, Integer page , Integer size, String orderDir, String orderCol) {
         LOGGER.info("Start service getStructuresByTypeAndMatricule ");
         List<Structure> structuresEbx;
         if(matricule == null){
             structuresEbx = structureRepository.findByType(type);
         } else {
             structuresEbx = structureRepository.findByTypeAndMatriculeContainsOrMatriculeContains(type, matricule.toUpperCase() , matricule.toLowerCase());
+        }
+        if(orderCol != null && orderDir != null){
+            structuresEbx = pagingUtil.sortColumn(structuresEbx ,orderDir, orderCol , "structure");
         }
         List<Structure> pageContent;
         if(page != null && size != null){

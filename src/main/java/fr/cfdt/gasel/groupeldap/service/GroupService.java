@@ -119,7 +119,7 @@ public class GroupService {
      */
     public List<String> getLdapMembers(String request) throws TechnicalException {
         List<String> result;
-        Page<PersonneDto> listMembers = personService.getMembers(request, null, null);
+        Page<PersonneDto> listMembers = personService.getMembers(request, null, null , null , null);
         List<PersonneDto> tmp = listMembers != null ? listMembers.getContent() : new ArrayList<>();
         result = tmp.stream().map(p -> "uid=" + p.getNpa() + ",ou=utilisateurs,dc=cfdt,dc=fr").collect(Collectors.toList());
         if (result == null || result.size() <= 0) {

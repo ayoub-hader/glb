@@ -27,11 +27,11 @@ public class StructureResource {
     @Autowired
     StructureService structureService;
 
-    @GetMapping("/{type}/{page}/{size}")
+    @GetMapping("/{type}/{page}/{size}/{orderDir}/{orderCol}")
     @ApiOperation(value = "Récupérer la liste des structure par type")
-    public Page<StructureDto> getStructures(@PathVariable String type , @PathVariable int page , @PathVariable int size) {
+    public Page<StructureDto> getStructures(@PathVariable String type , @PathVariable int page , @PathVariable int size , @PathVariable String orderDir,@PathVariable String orderCol) {
         LOGGER.info("Start Get getStructures ");
-        Page<StructureDto> structures = structureService.getStructuresByTypeAndMatricule(type, null , page , size);
+        Page<StructureDto> structures = structureService.getStructuresByTypeAndMatricule(type, null , page , size, orderDir , orderCol);
         LOGGER.info("End Get getStructures ");
         return structures;
     }
@@ -46,10 +46,10 @@ public class StructureResource {
         return structures;
     }
 
-    @GetMapping("/{type}/{matricule}/{page}/{size}")
-    public Page<StructureDto> getStructuresByMatricule(@PathVariable String type, @PathVariable String matricule , @PathVariable int page , @PathVariable int size) {
+    @GetMapping("/{type}/{matricule}/{page}/{size}/{orderDir}/{orderCol}")
+    public Page<StructureDto> getStructuresByMatricule(@PathVariable String type, @PathVariable String matricule , @PathVariable int page , @PathVariable int size , @PathVariable String orderDir,@PathVariable String orderCol) {
         LOGGER.info("Start Get getStructures ");
-        Page<StructureDto> structures = structureService.getStructuresByTypeAndMatricule(type , matricule , page , size);
+        Page<StructureDto> structures = structureService.getStructuresByTypeAndMatricule(type , matricule , page , size , orderDir , orderCol);
         LOGGER.info("End Get getStructures ");
         return structures;
     }

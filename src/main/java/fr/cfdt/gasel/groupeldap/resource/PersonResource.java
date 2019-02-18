@@ -51,22 +51,23 @@ public class PersonResource {
     @Autowired
     PagingUtil pagingUtil;
 
-    @GetMapping("/members/{query}/{page}/{size}")
+    @GetMapping("/members/{query}/{page}/{size}/{orderDir}/{orderCol}")
     @ApiOperation(value = "Récupérer la liste des membres en exécutant la requête")
-    public Page<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size) throws TechnicalException {
+    public Page<PersonneDto> getMembersByQuery(@PathVariable String query , @PathVariable int page , @PathVariable int size , @PathVariable String orderDir,@PathVariable String orderCol) throws TechnicalException {
         LOGGER.info("Start Get getMembersByQuery ");
-        Page<PersonneDto> members = personService.getMembers(query , page , size);
+        Page<PersonneDto> members = personService.getMembers(query , page , size , orderDir , orderCol);
         LOGGER.info("End Get getMembersByQuery ");
         return members;
     }
 
 
-    @GetMapping("/Rechercher/{query}/{criteria}/{page}/{size}")
+    @GetMapping("/Rechercher/{query}/{criteria}/{page}/{size}/{orderDir}/{orderCol}")
     @ApiOperation(value = "Rechercher par nom, nom de naissance ou npa dans la liste des membres")
-    public Page<PersonneDto> rechercherMembers(@PathVariable String query ,@PathVariable String criteria, @PathVariable int page,@PathVariable int size) throws TechnicalException {
+    public Page<PersonneDto> rechercherMembers(@PathVariable String query ,@PathVariable String criteria, @PathVariable int page,@PathVariable int size , @PathVariable String orderDir,@PathVariable String orderCol) throws TechnicalException {
         LOGGER.info("Start rechercherMembers");
-        List<PersonneDto> members = personService.getMembers(query , null , null).getContent();
+        List<PersonneDto> members = personService.getMembers(query , null , null , orderDir , orderCol).getContent();
         List<PersonneDto> tmp = members.stream().filter(p -> (p.getNpa() != null && p.getNpa().startsWith(criteria)) || (p.getNom() != null && p.getNom().startsWith(criteria)) || (p.getNomNaissance() != null && p.getNomNaissance().startsWith(criteria))).collect(Collectors.toList());
+        pagingUtil.sortColumn(tmp ,orderDir, orderCol , "personne");
         List<PersonneDto> pageContent = pagingUtil.getPage(tmp, page, size);
         LOGGER.info("End rechercherMembers ");
         return new PageImpl<>(pageContent, PageRequest.of(page-1, size) , tmp.size());

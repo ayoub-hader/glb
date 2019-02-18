@@ -87,7 +87,7 @@ public class GroupServiceTest {
         when(groupRepository.save(any())).thenReturn(TestUtils.createGroup(Long.valueOf(1)));
         when(groupMapper.groupModelToDto(any())).thenReturn(TestUtils.createGroupDto(Long.valueOf(1)));
         when(gaselLDAPService.createLpdapGroup(any())).thenReturn(true);
-        when(personService.getMembers(any(),any(),any())).thenReturn(TestUtils.createPersonPageDto());
+        when(personService.getMembers(any(),any(),any(), any() , any())).thenReturn(TestUtils.createPersonPageDto());
         //then
         GroupDto group = TestUtils.createGroupDto(Long.valueOf(2));
         GroupDto result = groupService.createGroup(group);

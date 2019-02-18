@@ -50,7 +50,7 @@ public class PersonService {
     PagingUtil pagingUtil;
 
 
-    public Page<PersonneDto> getMembers(String query , Integer page , Integer size) throws TechnicalException{
+    public Page<PersonneDto> getMembers(String query , Integer page , Integer size , String orderDir, String orderCol) throws TechnicalException{
         Page<PersonneDto> result = null;
         List<Personne> tmp = null;
         LOGGER.info("Start service getMembers ");
@@ -69,6 +69,9 @@ public class PersonService {
                 throw new TechnicalException(messagesProperties.getTechnicalExceptionInGetLdapUsersByNpas());
             }
             List<Personne> pageCont;
+            if(orderCol != null && orderDir != null) {
+                tmp = pagingUtil.sortColumn(tmp, orderDir, orderCol, "personne");
+            }
             if (page != null && size != null && tmp != null) {
                 pageCont = pagingUtil.getPage(tmp, page, size);
                 result = new PageImpl<>(personMapper.listPersonneModelToDto(pageCont), PageRequest.of(page - 1, size), tmp.size());
