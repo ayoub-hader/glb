@@ -16,6 +16,11 @@ pipeline {
 		sh "mvn -s settings.xml clean install -DskipTests"
 	    }
 	}
+	stage('Deploy project') {
+	    steps {
+		sshPublisher(publishers: [sshPublisherDesc(configName: 'debianVM9', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'bash docker/docker.sh', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'ldap_release', remoteDirectorySDF: false, removePrefix: 'target', sourceFiles: 'target/*.jar')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+	    }
+	}
     }
 }
 
