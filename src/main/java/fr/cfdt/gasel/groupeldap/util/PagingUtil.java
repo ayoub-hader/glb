@@ -51,22 +51,22 @@ public class PagingUtil {
 
     private List sortListStructure(List<Structure> resultList, String orderCol){
         if(orderCol.equalsIgnoreCase("matricule")){
-            resultList.sort(Comparator.comparing(Structure::getMatricule));
+            resultList.sort(Comparator.comparing(Structure::getMatricule , Comparator.nullsFirst(Comparator.naturalOrder())));
         } else if(orderCol.equalsIgnoreCase("nom")){
-            resultList.sort(Comparator.comparing(Structure::getNom));
+            resultList.sort(Comparator.comparing(Structure::getNom , Comparator.nullsFirst(Comparator.naturalOrder())));
         }
         return resultList;
     }
 
     private List sortListMember(List<Personne> resultList, String orderCol){
         if(orderCol.equalsIgnoreCase("matricule")){
-            resultList.sort(Comparator.comparing(m -> m.getSyndicat().getMatricule()));
+            resultList.sort(Comparator.comparing(m -> m.getSyndicat().getMatricule() , Comparator.nullsFirst(Comparator.naturalOrder())));
         } else if(orderCol.equalsIgnoreCase("nom")){
-            resultList.sort(Comparator.comparing(Personne::getNom));
+            resultList.sort(Comparator.comparing(Personne::getNom , Comparator.nullsFirst(Comparator.naturalOrder())));
         } else if(orderCol.equalsIgnoreCase("npa")){
-            resultList.sort(Comparator.comparing(Personne::getNpa));
+            resultList.sort(Comparator.comparing(Personne::getNpa , Comparator.nullsFirst(Comparator.naturalOrder())));
         } else if(orderCol.equalsIgnoreCase("syndicat")){
-            resultList.sort(Comparator.comparing(m -> m.getSyndicat().getAcronyme()));
+            resultList.sort(Comparator.comparing(m -> m.getSyndicat().getAcronyme() , Comparator.nullsFirst(Comparator.naturalOrder())));
         }
         return resultList;
     }

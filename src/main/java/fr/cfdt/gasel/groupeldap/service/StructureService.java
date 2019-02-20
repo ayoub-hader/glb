@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -37,19 +38,19 @@ public class StructureService {
         if(matricule == null){
             structuresEbx = structureRepository.findByType(type);
         } else {
-            structuresEbx = structureRepository.findByTypeAndMatriculeContainsOrMatriculeContains(type, matricule.toUpperCase() , matricule.toLowerCase());
+            structuresEbx = structureRepository.findByTypeAndMatriculeContainsOrTypeAndMatriculeContains(type, matricule.toUpperCase() , type, matricule.toLowerCase());
         }
         if(orderCol != null && orderDir != null){
             structuresEbx = pagingUtil.sortColumn(structuresEbx ,orderDir, orderCol , "structure");
         }
         List<Structure> pageContent;
         if(page != null && size != null){
-            pageContent = pagingUtil.getPage(structuresEbx , page , size);
+            pageContent = pagingUtil.getPage(structuresEbx != null ? structuresEbx : new ArrayList<>(), page , size);
         } else {
-            pageContent = structuresEbx;
+            pageContent = structuresEbx != null ? structuresEbx : new ArrayList<>();
         }
         LOGGER.info("End service getStructuresByTypeAndMatricule ");
-        return new PageImpl<>(structureMapper.listStructureModelToDto(pageContent), PageRequest.of(page-1, size) , structuresEbx.size());
+        return new PageImpl<>(structureMapper.listStructureModelToDto(pageContent), PageRequest.of(page-1, size) , structuresEbx != null ? structuresEbx.size() : 0);
     }
 
     public List<StructureDto> getStructuresByIds(List<String> ids) {
