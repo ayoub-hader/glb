@@ -18,7 +18,7 @@ pipeline {
 	}
 	stage('Deploy project') {
 	    steps {
-		sshPublisher(publishers: [sshPublisherDesc(configName: 'debianVM9', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'cd ldap_release && bash docker.sh', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'ldap_release', remoteDirectorySDF: false, sourceFiles: 'target/*.jar,docker/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+		sshPublisher(publishers: [sshPublisherDesc(configName: 'debianVM9', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'cd ldap_release/docker && bash docker.sh', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'ldap_release', remoteDirectorySDF: false, sourceFiles: 'target/*.jar,docker/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 	    }
 	}
     }
