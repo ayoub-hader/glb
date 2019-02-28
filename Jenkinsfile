@@ -32,7 +32,7 @@ pipeline {
                     branches: [[name: '*/master']],
                     userRemoteConfigs: [[credentialsId: 'git.neoxia', url: 'https://git.neoxia-maroc.net/abdelmoughit.rabia/groupe-ldap-front']]
                 ])
-                sh "npm install --no-audit && node_modules/.bin/ng build && ls -l"
+                sh "npm install --no-audit && node_modules/.bin/ng build"
                 sshPublisher(publishers: [
                     sshPublisherDesc(configName: 'debianVM9', transfers: [sshTransfer(
                         execTimeout: 120000,
@@ -48,7 +48,7 @@ pipeline {
                 sshPublisher(publishers: [
                     sshPublisherDesc(configName: 'debianVM9', transfers: [sshTransfer(
                         execCommand: 'cd ldap_release/docker && bash docker.sh',
-                        execTimeout: 120000,
+                        execTimeout: 300000,
                         remoteDirectory: 'ldap_release'
                     )])
                 ])
