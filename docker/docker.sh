@@ -1,11 +1,16 @@
 #!/bin/sh
 
-webappRunning=$(sudo docker inspect -f {{.State.Running}} $(sudo docker-compose ps -q webapp))
+backendRunning=$(sudo docker inspect -f {{.State.Running}} $(sudo docker-compose ps -q backend))
+backendRunning=$(sudo docker inspect -f {{.State.Running}} $(sudo docker-compose ps -q frontend))
 
-if [ "$webappRunning" = true ];then
-	echo "Web app is already running, restarting ..."
-	sudo docker-compose stop webapp
-fi
+services=(backend frontend)
+for service in "${services[@]}"; do
+	serviceRunning=$(sudo docker inspect -f {{.State.Running}} $(sudo docker-compose ps -q "$service"))
+	if [ "$serviceRunning" = true ]; then
+		echo "Service $service was running, restarting ..."
+		sudo docker-compose stop "$service"
+	fi
+done
 
 sudo docker-compose up -d
-echo "Done"
+echo "Containers UP !"
