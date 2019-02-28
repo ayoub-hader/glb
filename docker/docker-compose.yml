@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  webapp:
+    build:
+      context: ../
+      dockerfile: ./docker/webapp/Dockerfile
+    depends_on:
+      - redis
+    ports:
+      - "8081:8081"
+  redis:
+    image: redis:latest
+  
