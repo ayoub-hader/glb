@@ -12,5 +12,5 @@ for service in "${services[@]}"; do
 	fi
 done
 
-sudo docker-compose up -d
+sudo docker-compose up -d --remove-orphans
 echo "Containers UP !"
