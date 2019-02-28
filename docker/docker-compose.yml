@@ -1,14 +1,22 @@
 version: '3.3'
 
 services:
-  webapp:
+  backend:
     build:
       context: ../
-      dockerfile: ./docker/webapp/Dockerfile
+      dockerfile: ./docker/backend/Dockerfile
     depends_on:
       - redis
     ports:
       - "8081:8081"
+
+  frontend:
+    build:
+      context: ../
+      dockerfile: ./docker/frontend/Dockerfile
+    ports:
+      - "80:80"
+
   redis:
     image: redis:latest
   
