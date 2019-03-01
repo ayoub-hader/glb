@@ -16,6 +16,8 @@ services:
       dockerfile: ./docker/frontend/Dockerfile
     ports:
       - "80:80"
+    depends_on:
+      - backend
 
   redis:
     image: redis:latest
