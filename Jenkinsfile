@@ -29,10 +29,10 @@ pipeline {
             steps {
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/master']],
+                    branches: [[name: '*/deploy']],
                     userRemoteConfigs: [[credentialsId: 'git.neoxia', url: 'https://git.neoxia-maroc.net/abdelmoughit.rabia/groupe-ldap-front']]
                 ])
-                sh "npm install --no-audit && node_modules/.bin/ng build"
+                sh "npm install --no-audit && node_modules/.bin/ng build --prod"
                 sshPublisher(publishers: [
                     sshPublisherDesc(configName: 'debianVM9', transfers: [sshTransfer(
                         execTimeout: 120000,
