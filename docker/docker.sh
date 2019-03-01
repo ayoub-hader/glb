@@ -1,8 +1,5 @@
 #!/bin/sh
 
-backendRunning=$(sudo docker inspect -f {{.State.Running}} $(sudo docker-compose ps -q backend))
-backendRunning=$(sudo docker inspect -f {{.State.Running}} $(sudo docker-compose ps -q frontend))
-
 services=(backend frontend)
 for service in "${services[@]}"; do
 	serviceRunning=$(sudo docker inspect -f {{.State.Running}} $(sudo docker-compose ps -q "$service"))
