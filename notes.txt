@@ -1,0 +1,56 @@
+jdbc:h2:${jboss.server.data.dir}/../../shared-database/keycloak;AUTO_SERVER=TRUE
+
+
+10 15 6 10 8080
+10.15.3.3
+
+192.109.236.100		vm-app21
+
+192.109.238.32:1521
+
+lmvkcks
+keycloakadmin lmvkcadmin
+
+mobiwan:
+
+id:a842f2bc-ec73-42a0-bd4a-db53a887c50e
+
+{
+  "realm" : "lmv",
+  "auth-server-url" : "https://192.109.236.100:8443/auth/",
+  "ssl-required" : "external",
+  "resource" : "mobiwan",
+  "credentials" : {
+    "secret" : "678b1273-8f85-43a6-b6bc-1bafe447968f"
+  },
+  "confidential-port" : 0
+}
+
+
+MIICmzCCAYMCBgF1RYGaiTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjAxMDIwMTAxMzQzWhcNMzAxMDIwMTAxNTIzWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD4KHrb25JwbdMP+1Z1lkn7/Lv/K6hxGUVeXligrFZ/dnBFJ0A0eAXyxjlqdUFoWfruh9+E3u0wDwFjC/eMbhpKhVvuT86npQ1emJufA+xlXHC1gedmnsUSv8mC5jEgjmKIhXpmKfgg6kGGNVkR2JjmYp2AymAeiyKsopaisc4G+36GbQlEYrH10yuOrjtN/P5yDB4rN8yku2BIfX4dbwJCccwp1/drJGrZnp6lNxBZgsY9hoOtdS0+Xlou/Bh1Fz5opP36vd9W2wc5pN2adbEsrIH4jcpNkqz7nslcIZgB3G/XKtXK3o+8CGy1i8k7zJn/yegWAqOAvPPeLL6oWm0jAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAA68m/puVlUL51n5PFZ31xC1LTK2EnjOvflrgbA9bCiuiCSZgANTULv3gh7lfYAhciMBeTQtC/A6KE7faqw+g/yIllMnJMUw2YPkP/37DYpeHJyFgB/3gXEzk+AwEJgWF2XgSL33CqU0nDE5Ae6S5HC7i9rjaQXoHeYQIFgDca49IkMqiFQjI7mXTcFgxCXNBsK1+1zl156it/ksQC3VZFhD8wLNoEWbb8oSii40Tx3DODmpvVDJ8aj/gaf9W7K90ztrI+KrS0S0NVlpzKl454YnIbcBlT6s2sMXPF+iTn/2ot0h7vbdUzYrbtpKTLb+ESz6gjXw9suhGchJ9dufya8=
+
+
+
+keycloak@pg13
+
+domain-admin letscluster@2020 bGV0c2NsdXN0ZXJAMjAyMA==
+
+clusteringadminlmv
+
+admin@lmvcluster2020
+
+
+add keycloak-
+
+
+set lines 256
+set trimout on
+set tab off
+
+
+technique
+
+dev compte suspendu.
+
+keytool -import -alias local_keycloak -keystore /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/security/cacerts -file keycloak_certificate.crt
+MIIClTCCAX0CBgF1RY7ChTANBgkqhkiG9w0BAQsFADAOMQwwCgYDVQQDDANsbXYwHhcNMjAxMDIwMTAyODA1WhcNMzAxMDIwMTAyOTQ1WjAOMQwwCgYDVQQDDANsbXYwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCdwLrEkvQXKLxbNLwV+Uc4RvROM9FKwU3irfJMspI2uhhIZYwE1AT2ljcAZaMmheslrRMRdYsC9r5El8q+qveVjVVjbSRpXxkPVw7PdR7uHNLg2WYuqZXsKMmTdIRZkDx76wy+kRQDina41cBPDhO3k222l82ggvH88wyhAjh7/C0getdnNZ6Vba5tRJ8WuwqINKbrK4ymoaw1l82Rc7K7v+/N5MBR3RBdyAMqHviz7AnRWdHzwXYdPY4ne34DLxwoQBRLY1VyK9XYz8KwSFryYMfpdyCTkOfUz/4J1jr4/ICxbkr6wmxI2j1bWAr0LTkbvVKmyfOQqHx8eYx2EiXvAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAC+ZNuW4HsyKoVotNtlyW9lDS6RleJhDjpBhAw368RxAbdYE3H4v1eKveO5nTVnlMfkbK4njbZ0HaP2wxOP5yzC/aW5A9NoxskeZH6VdgbLEiOKPpBdTa4Jemvy7v+jeXieojynyOuMl9dEknFcBOayYSbHZu0v2oD9izNh/UauYjId4nDFMSke7Pf17rx1NX7DYaA+tROmnx6jOBFxi4oH89Br0IQD914CPzgTOgJt5OKc3bxuEWw2UCTpama7dQpJwK0p2tWvvAKynKQFtUY0M+m+4BH2BNZSkJFtGFGFhyRZTXQvHZ9qL1Gp/tZVzT7mHqgz+RVKkb63sHKkvwDk=
