@@ -37,6 +37,10 @@ domain-admin letscluster@2020 bGV0c2NsdXN0ZXJAMjAyMA==
 
 clusteringadminlmv
 
+
+/mob/scmobile-front-recette/rest/mobiwan/neoxia/hello
+/mob/scmobile-front-recette/rest/private/login
+/mob/scmobile-front-recette/rest/mobiwan/1949/contracts/all
 admin@lmvcluster2020
 
 
@@ -53,4 +57,56 @@ technique
 dev compte suspendu.
 
 keytool -import -alias local_keycloak -keystore /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/security/cacerts -file keycloak_certificate.crt
+
+
 MIIClTCCAX0CBgF1RY7ChTANBgkqhkiG9w0BAQsFADAOMQwwCgYDVQQDDANsbXYwHhcNMjAxMDIwMTAyODA1WhcNMzAxMDIwMTAyOTQ1WjAOMQwwCgYDVQQDDANsbXYwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCdwLrEkvQXKLxbNLwV+Uc4RvROM9FKwU3irfJMspI2uhhIZYwE1AT2ljcAZaMmheslrRMRdYsC9r5El8q+qveVjVVjbSRpXxkPVw7PdR7uHNLg2WYuqZXsKMmTdIRZkDx76wy+kRQDina41cBPDhO3k222l82ggvH88wyhAjh7/C0getdnNZ6Vba5tRJ8WuwqINKbrK4ymoaw1l82Rc7K7v+/N5MBR3RBdyAMqHviz7AnRWdHzwXYdPY4ne34DLxwoQBRLY1VyK9XYz8KwSFryYMfpdyCTkOfUz/4J1jr4/ICxbkr6wmxI2j1bWAr0LTkbvVKmyfOQqHx8eYx2EiXvAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAC+ZNuW4HsyKoVotNtlyW9lDS6RleJhDjpBhAw368RxAbdYE3H4v1eKveO5nTVnlMfkbK4njbZ0HaP2wxOP5yzC/aW5A9NoxskeZH6VdgbLEiOKPpBdTa4Jemvy7v+jeXieojynyOuMl9dEknFcBOayYSbHZu0v2oD9izNh/UauYjId4nDFMSke7Pf17rx1NX7DYaA+tROmnx6jOBFxi4oH89Br0IQD914CPzgTOgJt5OKc3bxuEWw2UCTpama7dQpJwK0p2tWvvAKynKQFtUY0M+m+4BH2BNZSkJFtGFGFhyRZTXQvHZ9qL1Gp/tZVzT7mHqgz+RVKkb63sHKkvwDk=
+
+
+
+
+
+
+
+
+
+openssl req -x509 -nodes -days 365  -newkey rsa:2048 -keyout keycloak_load_balancer.key -out keycloak_load_balancer.crt -config san.cnf
+
+
+
+
+
+app-27:       keycloak master	 		106
+APPMOBI-REC:  keycloak slave			200
+POSTGRESMOBI: postgresql + loadbalancer		203password
+
+masteradmin/lmvkc@admin
+
+lmvclusterks
+
+admin / adminmgmt@20
+<secret value="YWRtaW5tZ210QDIw" />
+
+-Djboss.server.config.dir=/opt/keycloak/domain/servers/prep1_master/configuration
+
+-Djboss.default.multicast.address=192.109.236.106 -Djboss.bind.address.private=192.109.236.106
+-Djboss.default.multicast.address=192.109.236.200 -Djboss.bind.address.private=192.109.236.200
+
+
+
+tcp        0      0 127.0.0.1:37064         0.0.0.0:*               LISTEN      19064/java           off (0.00/0/0)
+tcp        0      0 192.109.236.200:8009    0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
+tcp        0      0 192.109.236.200:8080    0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      6311/sshd            off (0.00/0/0)
+tcp        0      0 127.0.0.1:54200         0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      6656/master          off (0.00/0/0)
+tcp        0      0 192.109.236.200:443     0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
+tcp        0      0 127.0.0.1:3456          0.0.0.0:*               LISTEN      19078/java           off (0.00/0/0)
+
+tcp        0      0 192.109.236.200:8009    0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
+tcp        0      0 192.109.236.200:8080    0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      6311/sshd            off (0.00/0/0)
+tcp        0      0 127.0.0.1:54200         0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      6656/master          off (0.00/0/0)
+tcp        0      0 192.109.236.200:443     0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
+tcp        0      0 127.0.0.1:38171         0.0.0.0:*               LISTEN      18668/java           off (0.00/0/0)
+tcp        0      0 127.0.0.1:3456          0.0.0.0:*               LISTEN      18682/java           off (0.00/0/0)
