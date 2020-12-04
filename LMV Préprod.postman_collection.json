@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "40619aab-b538-48ae-9d9f-cfc331ac0232",
+		"name": "LMV Préprod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "token via gateway proxy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Connection",
+						"value": "Close",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "mobiwan",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "8986c439-5216-4d7f-b966-32d050c913e0",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "response_type",
+							"value": "id_token",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://192.109.236.104/auth/realms/lmv/protocol/openid-connect/token",
+					"protocol": "https",
+					"host": [
+						"192",
+						"109",
+						"236",
+						"104"
+					],
+					"path": [
+						"auth",
+						"realms",
+						"lmv",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "realm configuration",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Connection",
+						"value": "Close",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://192.109.236.203/auth/realms/lmv/.well-known/openid-configuration",
+					"protocol": "https",
+					"host": [
+						"192",
+						"109",
+						"236",
+						"203"
+					],
+					"path": [
+						"auth",
+						"realms",
+						"lmv",
+						".well-known",
+						"openid-configuration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hello  (test token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.109.236.104/mob/scmobile-front-preprod/rest/mobiwan/ayoub_daha/hello",
+					"protocol": "https",
+					"host": [
+						"192",
+						"109",
+						"236",
+						"104"
+					],
+					"path": [
+						"mob",
+						"scmobile-front-preprod",
+						"rest",
+						"mobiwan",
+						"ayoub_daha",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get contracts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJtamVpcXRTcjc4TXJCR3phQkdjSXRfXzFQQjlSZ1p3TzdtckpxTjFUWVNFIn0.eyJleHAiOjE2MDQ1NzgzNjcsImlhdCI6MTYwNDU3NjU2NywianRpIjoiNzg1ODViNmMtMjJlNS00OGRjLTk0NDUtYmY1NjQ2NDI2MmM0IiwiaXNzIjoiaHR0cHM6Ly8xOTIuMTA5LjIzNi4xMDAvYXV0aC9yZWFsbXMvbG12IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImEzOThlYjM0LWMxZWQtNDZmMS04YTljLTM3NzlhZTYwNjI5YiIsInR5cCI6IkJlYXJlciIsImF6cCI6Im1vYml3YW4iLCJzZXNzaW9uX3N0YXRlIjoiNWE5MWIxOTAtNGMxMS00NzI3LWJhYzYtM2RhM2ExNzQ2ZmQ4IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovLzE5Mi4xMDkuMjM2LjEwMS8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiY2xpZW50SG9zdCI6IjE5Mi4xMDkuMjM2LjEwMSIsImNsaWVudElkIjoibW9iaXdhbiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LW1vYml3YW4iLCJjbGllbnRBZGRyZXNzIjoiMTkyLjEwOS4yMzYuMTAxIn0.gzuzvfbwYsrenii0TcGHDj7-re3tgDRp29zXJ2hVeffzKpdRolTGAQA6mUbkj3V_NLYMhEvfl25PGMbEnkH929ElaQ_0CoAY42Yjjzoee1fuiAu1FLAzi0VVyO2r5yJ2gOI_kgk1n2Clku9OzrrTNSXb1etHqZWGKGYH_0VXqFrwf9eMqtu4hS6BVR-Z2XF2JKQci1FdQn2tbZjpM8gu7JY3XYYdUNNl-SxngNE1dI0HOdJdi4lotV3uQtXVKLdjkcf_awVh82ZbMInYCv1sjXwT6HGpMfDDp0YD9r845hoFGSEcyoUIQ6kIAqn6HDMUfTAFgl2YeUki7cQvyRIZ4g",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://192.109.236.104/mob/scmobile-front-preprod/rest/mobiwan/422907/contracts/all",
+					"protocol": "https",
+					"host": [
+						"192",
+						"109",
+						"236",
+						"104"
+					],
+					"path": [
+						"mob",
+						"scmobile-front-preprod",
+						"rest",
+						"mobiwan",
+						"422907",
+						"contracts",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token via load balancer",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Connection",
+						"value": "Close",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "mobiwan",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "8986c439-5216-4d7f-b966-32d050c913e0",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "response_type",
+							"value": "id_token",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://192.109.236.203/auth/realms/lmv/protocol/openid-connect/token",
+					"protocol": "https",
+					"host": [
+						"192",
+						"109",
+						"236",
+						"203"
+					],
+					"path": [
+						"auth",
+						"realms",
+						"lmv",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
