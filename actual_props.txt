@@ -1,0 +1,110 @@
+# Smtp configuration
+
+mail.smtp.host=exmail.lamarocainevie.co.ma
+#sogecap.ma.socgen.com
+mail.smtp.auth=true
+mail.smtp.port=587
+mail.smtp.source=client.Mob@lamarocainevie.co.ma
+#client.mob@lamarocainevie.co.ma
+mail.smtp.pwd=Azerty@123
+mail.smtp.socketFactory.port=
+#25
+mail.smtp.socketFactory.class=
+#javax.net.ssl.SSLSocketFactory
+
+
+
+mail.smtp.starttls.enable=true
+mail.smtp.debug=true
+
+
+mail.lmv.messagerie.relation.client=rdc.mob@lamarocainevie.co.ma
+mail.lmv.messagerie.prestation=prestation.mob@lamarocainevie.co.ma
+mail.subject.messagerie.prestation=LA MAROCAINE VIE - Reçu de quittance
+mail.subject.messagerie.relation.client=LA MAROCAINE VIE - Relation client
+
+
+
+
+# --------------------------
+# CONFIGURATION
+# --------------------------
+
+ma_marocainevie_selfcare_param=59
+
+sms_user=LMV
+sms_password=LMV-751
+
+
+### SMS
+sms_sender_url=http://download.dialy.net:8080/customerMessaging/SendSMS?User=${sms_user}&Password=${sms_password}&Text=[MSG]&Phone=[DESTINATION]
+
+sms_sender_default_number=2017
+
+sms_reset_password_content=Votre mot de passe pour accéder à l\'application La Marocacine Vie est [MDP]
+
+sms_demande_prestation=Validez votre quittance de prestation disponible sur l\'application mobile La Marocaine Vie [URL]
+
+message_demande_prestation_inf=Bonjour,\nVeuillez trouver en pièce jointe la quittance de prestation relative à votre contrat Dynamic Retraite Complémentaire N° [XX].\nAfin de nous permettre de procéder au règlement, veuillez répondre à ce message en précisant : « Je confirme la demande de règlement de cette prestation ».\nSi par ailleurs, vous souhaitez annuler votre prestation, veuillez répondre à ce message en précisant « Je souhaite annuler cette prestation ». \nBien cordialement \nService Prestation \nLa Marocaine Vie
+
+message_demande_prestation_sup=Bonjour,\nVeuillez trouver en pièce jointe la quittance de prestation relative à votre contrat Dynamic Retraite Complémentaire N° [XX].\nAfin de nous permettre de procéder au règlement, veuillez répondre à ce message en joignant une copie de cette quittance après l’avoir signé.\nSi par ailleurs, vous souhaitez annuler votre prestation, veuillez répondre à ce message en précisant « Je souhaite annuler cette prestation ».\nBien cordialement \nService Prestation \nLa Marocaine Vie
+
+sms_redirection=https://mobile-lmv.lamarocainevie.ma/app
+
+titre_conversation_quittance=La quitance de la demande de prestation
+signature_lmv=L’équipe LA MAROCAINE VIE.
+signature_client=Cordialement,
+debut_mail_client=[NOM] vient de vous envoyer le message suivant :
+debut_mail_client_pj=[NOM] vient de vous envoyer une pièce jointe.
+subject_mail_client=Nouveau  message de [NOM]
+subject_mail_client_contrat=Nouveau  message de [PLUSINFO]
+
+
+### Ref
+
+sehatukBaseUrl=http://dev.dialy.net/staging/sehatuk_proxy/web
+#sehatukBaseUrl=https://sehatuk-api.dialy.net/sehatuk_proxy/web
+sehatukPharmaciesByCity=/api/v2/pharmacy/city?city=
+SehatukPharmaciesByCoordinates=/api/v2/pharmacy/range/%s/latitude/%s/longitude/%s
+sehatukMedecin=/api/v2/medecins
+sehatukCentres=/api/v2/centresr
+xAuthToken=KzIxMjY2NjY2NjY2NjpXWDNSRzFQcURMSjJNSXExYVY4QWsrNUM=
+
+proxy_address=10.15.6.10
+proxy_port=8080
+proxy_scheme=http
+
+env=recette
+
+ma_marocainevie_selfcare_mobile_directoryBase_download=/etc/tomcat8/apache-tomcat-mob/temp/
+ma_marocainevie_selfcare_sehatuk_api_range=5
+
+use_proxy=true
+
+ma_marocainevie_selfcare_mobile_fire_base_server_url=https://fcm.googleapis.com/fcm/send
+ma_marocainevie_selfcare_mobile_fire_base_api_key=key=AAAA19LEAGc:APA91bGxHa8H6nWjhyWRxtrLcHJbJQ7TYr5yZpc2969uwD5ljb5NoUJhQ2wynK53AnR9WG3o2riFTyKGBfT0AB8rSwOrqR6qHpJCATgHXCONHREGaHzKJF2vkv79CCWcl8F-P_Jtbfs0
+
+
+
+
+
+ma_marocainevie_selfcare_mobile_directoryBase=/opt/tomcat/tomcat-mob/webapps/uploads/
+
+ma_marocainevie_selfcare_mobile_login=ftpuser
+ma_marocainevie_selfcare_mobile_password=ftp@lmv
+ma_marocainevie_selfcare_mobile_cert=
+
+ma_marocainevie_selfcare_mobile_server=127.0.0.1
+ma_marocainevie_selfcare_mobile_port=21
+ma_marocainevie_selfcare_mobile_timeout=1000
+
+ma_marocainevie_selfcare_mobile_url_img_front=https://192.109.236.101/mob
+ma_marocainevie_selfcare_mobile_url_img_bo=https://192.109.236.101/bo
+
+ma_marocainevie_selfcare_mobile_url_img_products=${ma_marocainevie_selfcare_mobile_url_img_bo}/uploads/products/
+ma_marocainevie_selfcare_mobile_url_img_prestations=${ma_marocainevie_selfcare_mobile_url_img_front}/uploads/prestations/
+ma_marocainevie_selfcare_mobile_url_img_offers=${ma_marocainevie_selfcare_mobile_url_img_bo}/uploads/offers/
+ma_marocainevie_selfcare_mobile_url_img_tabs=${ma_marocainevie_selfcare_mobile_url_img_bo}/uploads/tabs/
+ma_marocainevie_selfcare_mobile_url_img_messagerie=${ma_marocainevie_selfcare_mobile_url_img_front}/uploads/messagerie/
+ma_marocainevie_selfcare_mobile_url_img_quittance=${ma_marocainevie_selfcare_mobile_url_img_front}/uploads/quittances/
+max_file_size=5

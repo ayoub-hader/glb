@@ -1,112 +1,105 @@
-jdbc:h2:${jboss.server.data.dir}/../../shared-database/keycloak;AUTO_SERVER=TRUE
+Source :
+client.mob@lamarocainevie.co.ma
+smtp :exmail.lamarocainevie.co.ma
+port : 587/25
+login :mvie_dom\ client.mob
+mpt : Azerty@123
+
+Destinataire :
+rdc.mob@lamarocainevie.co.ma
+port : 587/25
+login : mvie_dom\ rdc.mob
+mpt :Azerty@123
 
 
-10 15 6 10 8080
-10.15.3.3
+prestation.mob@lamarocainevie.co.ma
+port : 587/25
+login : mvie_dom\prestation.mob
+mpt :Azerty@123
 
-192.109.236.100		vm-app21
 
-192.109.238.32:1521
 
-lmvkcks
-keycloakadmin lmvkcadmin
+# Change this according to your mail server if necessary
 
-mobiwan:
+spring.mail.properties.mail.smtp.from=testmail@sogecap.ma.socgen.com
+spring.mail.host=126.0.0.4
+#spring.mail.properties.mail.port=587
+spring.mail.username=testmail
+spring.mail.password=Azerty@123
+#spring.mail.properties.mail.test-connection=false
 
-id:a842f2bc-ec73-42a0-bd4a-db53a887c50e
 
-{
-  "realm" : "lmv",
-  "auth-server-url" : "https://192.109.236.100:8443/auth/",
-  "ssl-required" : "external",
-  "resource" : "mobiwan",
-  "credentials" : {
-    "secret" : "678b1273-8f85-43a6-b6bc-1bafe447968f"
-  },
-  "confidential-port" : 0
+
+
+vrrp_script check_script {
+  script /opt/ha_scripts/check_script.sh
+  interval 10
+  fall 2
+  rise 2
+  timeout 10
+}
+
+vrrp_instance ha_prod {
+  state MASTER
+  interface ens192
+  virtual_router_id 21
+  priority 100
+  authentication {
+    auth_type PASS
+    auth_pass 3ncryp73dp@55
+  }
+  virtual_ipaddress {
+    192.109.236.213/24
+  }
+  track_script {
+    check_script
+  }
+  notify /opt/ha_scripts/notify_script.sh
 }
 
 
-MIICmzCCAYMCBgF1RYGaiTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjAxMDIwMTAxMzQzWhcNMzAxMDIwMTAxNTIzWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD4KHrb25JwbdMP+1Z1lkn7/Lv/K6hxGUVeXligrFZ/dnBFJ0A0eAXyxjlqdUFoWfruh9+E3u0wDwFjC/eMbhpKhVvuT86npQ1emJufA+xlXHC1gedmnsUSv8mC5jEgjmKIhXpmKfgg6kGGNVkR2JjmYp2AymAeiyKsopaisc4G+36GbQlEYrH10yuOrjtN/P5yDB4rN8yku2BIfX4dbwJCccwp1/drJGrZnp6lNxBZgsY9hoOtdS0+Xlou/Bh1Fz5opP36vd9W2wc5pN2adbEsrIH4jcpNkqz7nslcIZgB3G/XKtXK3o+8CGy1i8k7zJn/yegWAqOAvPPeLL6oWm0jAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAA68m/puVlUL51n5PFZ31xC1LTK2EnjOvflrgbA9bCiuiCSZgANTULv3gh7lfYAhciMBeTQtC/A6KE7faqw+g/yIllMnJMUw2YPkP/37DYpeHJyFgB/3gXEzk+AwEJgWF2XgSL33CqU0nDE5Ae6S5HC7i9rjaQXoHeYQIFgDca49IkMqiFQjI7mXTcFgxCXNBsK1+1zl156it/ksQC3VZFhD8wLNoEWbb8oSii40Tx3DODmpvVDJ8aj/gaf9W7K90ztrI+KrS0S0NVlpzKl454YnIbcBlT6s2sMXPF+iTn/2ot0h7vbdUzYrbtpKTLb+ESz6gjXw9suhGchJ9dufya8=
+00:50:56:ba:9b:41	MASTER
+00:50:56:ba:d4:7a	BACKUP
+
+psql postgresql://localhost/keycloak -U keycloak
+psql postgresql://192.109.232.213/keycloak -U keycloak
+
+service keepalived restart && tail -n30 -f /var/log/messages /var/lib/pgsql/13/data/log/postgresql-Thu.log
+ arp -a | grep 213
 
 
+Firebase (Google) => https://fcm.googleapis.com/fcm/send
 
-keycloak@pg13
-
-domain-admin letscluster@2020 bGV0c2NsdXN0ZXJAMjAyMA==
-
-clusteringadminlmv
-
-
-/mob/scmobile-front-recette/rest/mobiwan/neoxia/hello
-/mob/scmobile-front-recette/rest/private/login
-/mob/scmobile-front-recette/rest/mobiwan/1949/contracts/all
-admin@lmvcluster2020
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.transport.protocol=smtp
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.ssl.trust =126.0.0.4
+spring.mail.properties.mail.smtp.port=587
+spring.mail.properties.mail.smtp.host=126.0.0.4
 
 
-add keycloak-
+/opt/keycloak/domain/configuration/host_xml_history/host-master.initial.xml:        <server name="prep1_master" group="auth-server-group" auto-start="true">
+/opt/keycloak/domain/configuration/host_xml_history/20201111-112121769/host-master.v1.xml:        <server name="prep1_master" group="auth-server-group" auto-start="true">
+/opt/keycloak/domain/configuration/host_xml_history/20201111-112121769/host-master.v2.xml:        <server name="prep1_master" group="auth-server-group" auto-start="true"/>
+/opt/keycloak/domain/configuration/host_xml_history/host-master.last.xml:        <server name="prep1_master" group="auth-server-group" auto-start="true"/>
+/opt/keycloak/domain/configuration/host_xml_history/host-master.boot.xml:        <server name="prep1_master" group="auth-server-group" auto-start="true"/>
 
 
-set lines 256
-set trimout on
-set tab off
+/usr/sbin/sysctl -w net.ipv4.ip_nonlocal_bind=1
+		    net.ipv4.ip_forward=1
 
 
-technique
+keycloak admin password
+lmvadmin@prod21
 
-dev compte suspendu.
+keystore
+prodks@lmv21
 
-keytool -import -alias local_keycloak -keystore /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/security/cacerts -file keycloak_certificate.crt
+mobiwan client id / secret
+c8cf5f23-c37a-436d-bd6c-b0a6b63071d5
+406b6f1a-17ac-457b-8541-600d8f067f5f
 
+curl -L -X POST 'https://192.109.232.209/auth/realms/lmv/protocol/openid-connect/token' -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode 'client_id=mobiwan' --data-urlencode 'client_secret=406b6f1a-17ac-457b-8541-600d8f067f5f' --data-urlencode 'grant_type=client_credentials' -k
 
-MIIClTCCAX0CBgF1RY7ChTANBgkqhkiG9w0BAQsFADAOMQwwCgYDVQQDDANsbXYwHhcNMjAxMDIwMTAyODA1WhcNMzAxMDIwMTAyOTQ1WjAOMQwwCgYDVQQDDANsbXYwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCdwLrEkvQXKLxbNLwV+Uc4RvROM9FKwU3irfJMspI2uhhIZYwE1AT2ljcAZaMmheslrRMRdYsC9r5El8q+qveVjVVjbSRpXxkPVw7PdR7uHNLg2WYuqZXsKMmTdIRZkDx76wy+kRQDina41cBPDhO3k222l82ggvH88wyhAjh7/C0getdnNZ6Vba5tRJ8WuwqINKbrK4ymoaw1l82Rc7K7v+/N5MBR3RBdyAMqHviz7AnRWdHzwXYdPY4ne34DLxwoQBRLY1VyK9XYz8KwSFryYMfpdyCTkOfUz/4J1jr4/ICxbkr6wmxI2j1bWAr0LTkbvVKmyfOQqHx8eYx2EiXvAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAC+ZNuW4HsyKoVotNtlyW9lDS6RleJhDjpBhAw368RxAbdYE3H4v1eKveO5nTVnlMfkbK4njbZ0HaP2wxOP5yzC/aW5A9NoxskeZH6VdgbLEiOKPpBdTa4Jemvy7v+jeXieojynyOuMl9dEknFcBOayYSbHZu0v2oD9izNh/UauYjId4nDFMSke7Pf17rx1NX7DYaA+tROmnx6jOBFxi4oH89Br0IQD914CPzgTOgJt5OKc3bxuEWw2UCTpama7dQpJwK0p2tWvvAKynKQFtUY0M+m+4BH2BNZSkJFtGFGFhyRZTXQvHZ9qL1Gp/tZVzT7mHqgz+RVKkb63sHKkvwDk=
-
-
-
-
-
-
-
-
-
-openssl req -x509 -nodes -days 365  -newkey rsa:2048 -keyout keycloak_load_balancer.key -out keycloak_load_balancer.crt -config san.cnf
-
-
-
-
-
-app-27:       keycloak master	 		106
-APPMOBI-REC:  keycloak slave			200
-POSTGRESMOBI: postgresql + loadbalancer		203password
-
-masteradmin/lmvkc@admin
-
-lmvclusterks
-
-admin / adminmgmt@20
-<secret value="YWRtaW5tZ210QDIw" />
-
--Djboss.server.config.dir=/opt/keycloak/domain/servers/prep1_master/configuration
-
--Djboss.default.multicast.address=192.109.236.106 -Djboss.bind.address.private=192.109.236.106
--Djboss.default.multicast.address=192.109.236.200 -Djboss.bind.address.private=192.109.236.200
-
-
-
-tcp        0      0 127.0.0.1:37064         0.0.0.0:*               LISTEN      19064/java           off (0.00/0/0)
-tcp        0      0 192.109.236.200:8009    0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
-tcp        0      0 192.109.236.200:8080    0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      6311/sshd            off (0.00/0/0)
-tcp        0      0 127.0.0.1:54200         0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
-tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      6656/master          off (0.00/0/0)
-tcp        0      0 192.109.236.200:443     0.0.0.0:*               LISTEN      19124/java           off (0.00/0/0)
-tcp        0      0 127.0.0.1:3456          0.0.0.0:*               LISTEN      19078/java           off (0.00/0/0)
-
-tcp        0      0 192.109.236.200:8009    0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
-tcp        0      0 192.109.236.200:8080    0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      6311/sshd            off (0.00/0/0)
-tcp        0      0 127.0.0.1:54200         0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
-tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      6656/master          off (0.00/0/0)
-tcp        0      0 192.109.236.200:443     0.0.0.0:*               LISTEN      18729/java           off (0.00/0/0)
-tcp        0      0 127.0.0.1:38171         0.0.0.0:*               LISTEN      18668/java           off (0.00/0/0)
-tcp        0      0 127.0.0.1:3456          0.0.0.0:*               LISTEN      18682/java           off (0.00/0/0)
+mb1-PROD.safe.socgen
+kbbyzLRRUFLo70oIY_kSZw
